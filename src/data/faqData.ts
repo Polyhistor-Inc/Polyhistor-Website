@@ -5,9 +5,19 @@ interface FaqItem {
 
 export const faqData: FaqItem[] = [
   {
+    question: "Is the app free to download?",
+    answer:
+      "Yes! The app is completely free to download and use for travelers. We want to make group travel as accessible and stress-free as possible.",
+  },
+  {
+    question: "Which platforms is the app available on?",
+    answer:
+      "ThePolyhistor app is currently available globally on both the Apple App Store (iOS) and Google Play Store (Android).",
+  },
+  {
     question: "Do you charge per student?",
     answer:
-      "We offer flexible licensing models. You can choose a per-trip fee (great for seasonal tours) or an annual agency-wide license for unlimited groups. Contact sales for a custom quote.",
+      "For agencies using our Enterprise Solutions, we offer flexible licensing models. You can choose a per-trip fee (great for seasonal tours) or an annual agency-wide license for unlimited groups. Contact sales for a custom quote.",
   },
   {
     question: "Is this legal for school trips?",

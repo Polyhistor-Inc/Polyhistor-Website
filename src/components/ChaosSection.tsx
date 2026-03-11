@@ -56,9 +56,9 @@ export default function ChaosSection() {
           {chaosProblems.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
+              initial={{ opacity: 0, y: 50, rotateZ: index % 2 === 0 ? -5 : 5, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, y: 0, rotateZ: 0, scale: 1 } : {}}
+              transition={{ type: "spring", stiffness: 100, damping: 15, delay: index * 0.2 }}
               className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 hover:shadow-2xl transition-shadow duration-300"
             >
               {/* Image or Emoji Background */}
@@ -94,9 +94,9 @@ export default function ChaosSection() {
 
         {/* Transition to Solution */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.8 }}
           className="text-center mt-16"
         >
           <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-brand-coral/10 to-brand-blue/10 rounded-full border border-brand-coral/20">

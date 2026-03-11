@@ -73,7 +73,7 @@ export default function TrojanHorseSection() {
                   Organizing a Trip?
                 </h2>
                 <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-                  The same tech that connects friends will be trusted by top agencies to keep groups safe.
+                  The same tech that connects friends is trusted by top agencies to keep groups safe.
                 </p>
 
                 <Link

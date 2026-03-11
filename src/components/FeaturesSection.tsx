@@ -25,6 +25,7 @@ const features = [
       "Settle up in seconds. Split Ubers, dinners, and drinks without the awkward math. Scan receipts and split instantly.",
     visual: "/split-bill-mockup.png",
     gradient: "from-notification-orange to-brand-coral",
+    hasScanner: true,
   },
   {
     id: "itinerary-voting",
@@ -89,6 +90,15 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
           {feature.hasAnimation && (
             <ConvergenceAnimation />
           )}
+          {feature.hasScanner && (
+            <div className="absolute inset-0 z-20 pointer-events-none rounded-[2.5rem] overflow-hidden">
+                <motion.div
+                  animate={{ y: ["-10%", "110%"] }}
+                  transition={{ duration: 2.5, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+                  className="w-full h-8 bg-gradient-to-b from-transparent via-green-400/30 to-green-500/50 border-b border-green-400 blur-[2px]"
+                />
+            </div>
+          )}
           <div className="relative w-full max-w-[320px] mx-auto aspect-[9/16] rounded-[2.5rem] overflow-hidden shadow-2xl">
             <Image
               src={feature.visual}
@@ -128,10 +138,10 @@ function ConvergenceAnimation() {
         <motion.path
           key={i}
           d={d}
-          stroke="#FF6F61"
-          strokeWidth="3"
+          stroke="#FF2D55"
+          strokeWidth="4"
           fill="none"
-          strokeDasharray="0 1"
+          strokeLinecap="round"
           style={{ pathLength }}
         />
       ))}
@@ -139,8 +149,8 @@ function ConvergenceAnimation() {
       <motion.circle
         cx="160"
         cy="320"
-        r="8"
-        fill="#FF6F61"
+        r="10"
+        fill="#FF2D55"
         animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
         transition={{ duration: 2, repeat: Infinity }}
       />

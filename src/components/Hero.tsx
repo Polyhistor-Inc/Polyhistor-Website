@@ -1,7 +1,7 @@
 "use client";
 
 import { getPersonalizedHeadline, getUserLocation } from "@/lib/geolocation";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Building2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,18 +20,27 @@ const NotificationBubble = ({
     y: string;
 }) => (
     <motion.div
-        initial={{ opacity: 0, scale: 0.8, y: 20 }}
-        animate={{ opacity: [0, 1, 1, 0], scale: [0.8, 1, 1, 0.8], y: [20, 0, 0, -20] }}
+        initial={{ opacity: 0, scale: 0, y: 50 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{
-            duration: 4,
-            delay,
-            repeat: Infinity,
-            repeatDelay: 4,
+            type: "spring",
+            stiffness: 260,
+            damping: 20,
+            delay: delay,
         }}
-        className={`absolute ${x} ${y} bg-white px-4 py-2 rounded-full shadow-lg border border-slate-100`}
-        style={{ zIndex: 5 }}
+        className={`absolute ${x} ${y} z-20`}
     >
-        <span className="text-sm font-medium text-slate-700">{text}</span>
+        <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+            }}
+            className="bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl shadow-xl border border-white/50 flex items-center gap-2"
+        >
+            <span className="text-sm font-semibold text-slate-800">{text}</span>
+        </motion.div>
     </motion.div>
 );
 
@@ -40,15 +49,21 @@ export default function Hero({
 }: {
     onJoinWaitlistClick: () => void;
 }) {
-    const [scrollY, setScrollY] = useState(0);
+    const { scrollY } = import("framer-motion").then(m => m.useScroll()) as any || { scrollY: { get: () => 0 } };
+    
+    // Fallback for SSR
+    const scrollYValue = typeof window !== 'undefined' ? window.scrollY : 0;
     const [city, setCity] = useState<string>();
     const [headlineText, setHeadlineText] = useState("Never Lose Your Friends");
 
-    useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    
+    const { scrollY: fScrollY } = useScroll();
+    
+    const yPhone1 = useTransform(fScrollY, [0, 1000], [0, -150]);
+    const rotateYPhone1 = useTransform(fScrollY, [0, 1000], [5, 15]);
+    
+    const yPhone2 = useTransform(fScrollY, [0, 1000], [0, -100]);
+    const rotateYPhone2 = useTransform(fScrollY, [0, 1000], [-5, -15]);
 
     useEffect(() => {
         // Fetch user's city for personalization
@@ -75,7 +90,7 @@ export default function Hero({
                 >
                     <span className="flex h-2 w-2 rounded-full bg-viral-red mr-2 animate-pulse" />
                     <span className="text-sm font-medium text-slate-600">
-                        90+ already on the waitlist • Launching Spring 2026
+                        Join 100+ travelers already exploring stress-free.
                     </span>
                 </motion.div>
 
@@ -108,67 +123,76 @@ export default function Hero({
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.6 }}
-                    className="mt-10 flex flex-col sm:flex-row justify-center gap-4"
+                    className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4"
                 >
-                    <button
-                        onClick={onJoinWaitlistClick}
-                        className="group px-8 py-4 rounded-full bg-gradient-to-r from-brand-blue to-viral-red text-white font-bold hover:shadow-glow transition-all flex items-center justify-center gap-2 hover:scale-105 duration-200"
-                    >
-                        Join Waitlist{" "}
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                    {/* Secondary CTA - For Agencies */}
                     <Link
-                        href="/enterprise"
-                        className="px-8 py-4 bg-white border-2 border-slate-300 text-slate-900 rounded-full font-bold hover:border-brand-blue hover:bg-slate-50 transition-all duration-200 flex items-center gap-2 shadow-sm"
+                        href="#"
+                        className="group px-8 py-4 rounded-xl bg-slate-900 text-white font-bold hover:shadow-glow transition-all flex items-center justify-center gap-2 hover:scale-105 duration-200"
                     >
-                        <Building2 className="w-5 h-5" />
-                        For travel agencies
+                        <svg viewBox="0 0 384 512" className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
+                        </svg>
+                        <div className="flex flex-col items-start leading-none">
+                            <span className="text-[10px] text-slate-300">Download on the</span>
+                            <span className="text-lg">App Store</span>
+                        </div>
+                    </Link>
+                    <Link
+                        href="#"
+                        className="group px-8 py-4 rounded-xl bg-slate-900 text-white font-bold hover:shadow-glow transition-all flex items-center justify-center gap-2 hover:scale-105 duration-200"
+                    >
+                        <svg viewBox="0 0 512 512" className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z" />
+                        </svg>
+                        <div className="flex flex-col items-start leading-none">
+                            <span className="text-[10px] text-slate-300">GET IT ON</span>
+                            <span className="text-lg">Google Play</span>
+                        </div>
                     </Link>
                 </motion.div>
             </div>
 
             {/* Phone Mockups with Parallax */}
             <motion.div
-                initial={{ opacity: 0, y: 60 }}
+                initial={{ opacity: 0, y: 100 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                className="mt-16 md:mt-24 relative max-w-6xl mx-auto w-full px-4"
-                style={{ transform: `translateY(-${scrollY * 0.1}px)` }}
+                transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.8 }}
+                className="mt-16 md:mt-24 relative max-w-6xl mx-auto w-full px-4 perspective-[2000px]"
             >
                 <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 relative">
                     {/* Notification Bubbles */}
                     <NotificationBubble
                         text="🎉 Sarah joined the trip"
-                        delay={1}
-                        x="left-[10%]"
-                        y="top-[15%]"
+                        delay={1.2}
+                        x="left-[5%] md:left-[10%]"
+                        y="top-[10%] md:top-[15%]"
                     />
                     <NotificationBubble
                         text="💰 $15 received"
-                        delay={2.5}
-                        x="right-[15%]"
+                        delay={1.6}
+                        x="right-[5%] md:right-[15%]"
                         y="top-[20%]"
                     />
                     <NotificationBubble
                         text="📍 Mike is nearby"
-                        delay={4}
-                        x="left-[5%]"
-                        y="bottom-[25%]"
+                        delay={2.0}
+                        x="left-[2%] md:left-[5%]"
+                        y="bottom-[20%] md:bottom-[25%]"
                     />
 
                     {/* Left Phone - Friend Map */}
                     <motion.div
                         className="relative group"
-                        whileHover={{ scale: 1.05, rotateY: 5 }}
-                        transition={{ duration: 0.3 }}
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         style={{
-                            transform: `translateY(-${scrollY * 0.15}px) rotateY(${scrollY * 0.02}deg)`,
+                            y: yPhone1,
+                            rotateY: rotateYPhone1,
                             transformStyle: "preserve-3d",
                         }}
                     >
                         <div className="absolute -inset-1 bg-gradient-to-r from-viral-red to-notification-orange rounded-[2.5rem] blur opacity-25 group-hover:opacity-40 transition duration-500" />
-                        <div className="relative w-[280px] h-[560px] rounded-[2rem] overflow-hidden shadow-2xl">
+                        <div className="relative w-[280px] h-[560px] rounded-[2rem] overflow-hidden shadow-2xl bg-white border-4 border-slate-100">
                             <Image
                                 src="/friend-map-mockup.png"
                                 alt="Friend Map showing real-time location tracking"
@@ -181,16 +205,17 @@ export default function Hero({
 
                     {/* Right Phone - Split Bill */}
                     <motion.div
-                        className="relative group"
-                        whileHover={{ scale: 1.05, rotateY: -5 }}
-                        transition={{ duration: 0.3 }}
+                        className="relative group mt-12 md:mt-0 md:translate-y-12"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         style={{
-                            transform: `translateY(-${scrollY * 0.12}px) rotateY(${-scrollY * 0.02}deg)`,
+                            y: yPhone2,
+                            rotateY: rotateYPhone2,
                             transformStyle: "preserve-3d",
                         }}
                     >
                         <div className="absolute -inset-1 bg-gradient-to-r from-viral-purple to-brand-blue rounded-[2.5rem] blur opacity-25 group-hover:opacity-40 transition duration-500" />
-                        <div className="relative w-[280px] h-[560px] rounded-[2rem] overflow-hidden shadow-2xl">
+                        <div className="relative w-[280px] h-[560px] rounded-[2rem] overflow-hidden shadow-2xl bg-white border-4 border-slate-100">
                             <Image
                                 src="/split-bill-mockup.png"
                                 alt="Split bill notification showing Sagar requested $15 for Pizza"
