@@ -126,7 +126,7 @@ export default function Hero({
                     className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4"
                 >
                     <Link
-                        href="#"
+                        href="https://apps.apple.com/us/app/polyhistor/id6759064328"
                         className="group px-8 py-4 rounded-xl bg-slate-900 text-white font-bold hover:shadow-glow transition-all flex items-center justify-center gap-2 hover:scale-105 duration-200"
                     >
                         <svg viewBox="0 0 384 512" className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg">
@@ -138,7 +138,7 @@ export default function Hero({
                         </div>
                     </Link>
                     <Link
-                        href="#"
+                        href="https://play.google.com/store/apps/details?id=com.thepolyhistor.app"
                         className="group px-8 py-4 rounded-xl bg-slate-900 text-white font-bold hover:shadow-glow transition-all flex items-center justify-center gap-2 hover:scale-105 duration-200"
                     >
                         <svg viewBox="0 0 512 512" className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg">
