@@ -2,7 +2,7 @@
 
 import { getPersonalizedHeadline, getUserLocation } from "@/lib/geolocation";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Building2 } from "lucide-react";
+import { ArrowRight, Building2, Trophy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -49,15 +49,12 @@ export default function Hero({
 }: {
     onJoinWaitlistClick: () => void;
 }) {
-    const { scrollY } = import("framer-motion").then(m => m.useScroll()) as any || { scrollY: { get: () => 0 } };
-    
+    const { scrollY: fScrollY } = useScroll();
+
     // Fallback for SSR
     const scrollYValue = typeof window !== 'undefined' ? window.scrollY : 0;
     const [city, setCity] = useState<string>();
     const [headlineText, setHeadlineText] = useState("Never Lose Your Friends");
-
-    
-    const { scrollY: fScrollY } = useScroll();
     
     const yPhone1 = useTransform(fScrollY, [0, 1000], [0, -150]);
     const rotateYPhone1 = useTransform(fScrollY, [0, 1000], [5, 15]);
@@ -74,25 +71,43 @@ export default function Hero({
     }, []);
 
     return (
-        <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50 flex flex-col pt-20 pb-10">
-            {/* Floating background blobs */}
-            <div className="absolute top-20 left-10 w-72 h-72 bg-brand-coral/20 rounded-full blur-3xl animate-blob" />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-viral-purple/10 rounded-full blur-3xl animate-blob animation-delay-2000" />
-            <div className="absolute top-1/2 left-1/3 w-80 h-80 bg-notification-orange/10 rounded-full blur-3xl animate-blob animation-delay-4000" />
+        <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50/50 flex flex-col pt-20 pb-10">
+            {/* Floating background blobs - FIFA colors */}
+            <div className="absolute top-20 left-10 w-72 h-72 bg-fifa-blue/10 rounded-full blur-3xl animate-blob" />
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-fifa-gold/10 rounded-full blur-3xl animate-blob animation-delay-2000" />
+            <div className="absolute top-1/2 left-1/3 w-80 h-80 bg-fifa-red/10 rounded-full blur-3xl animate-blob animation-delay-4000" />
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-10">
-                {/* Social Proof Badge */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="inline-flex items-center px-4 py-2 rounded-full border border-slate-200 bg-white shadow-sm mb-8"
-                >
-                    <span className="flex h-2 w-2 rounded-full bg-viral-red mr-2 animate-pulse" />
-                    <span className="text-sm font-medium text-slate-600">
-                        Join 100+ travelers already exploring stress-free.
-                    </span>
-                </motion.div>
+                {/* Badges Container - Centered with proper spacing */}
+                <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+                    {/* World Cup Badge */}
+                    <Link
+                        href="/worldcup"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-fifa-blue/10 to-fifa-gold/10 border border-fifa-blue/20 backdrop-blur-md hover:shadow-lg transition-all group"
+                    >
+                        <Trophy className="w-4 h-4 text-fifa-gold" />
+                        <span className="text-sm font-bold text-fifa-blue">
+                            New: World Cup Fan Pack with 19 features
+                        </span>
+                        <ArrowRight className="w-4 h-4 text-fifa-blue group-hover:translate-x-1 transition-transform" />
+                    </Link>
+
+                    {/* Divider */}
+                    <div className="hidden sm:block w-px h-6 bg-slate-300" />
+
+                    {/* Social Proof Badge */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="inline-flex items-center px-4 py-2 rounded-full border border-slate-200 bg-white shadow-sm"
+                    >
+                        <span className="flex h-2 w-2 rounded-full bg-viral-red mr-2 animate-pulse" />
+                        <span className="text-sm font-medium text-slate-600">
+                            Join 100+ travelers already exploring stress-free.
+                        </span>
+                    </motion.div>
+                </div>
 
                 {/* Main Headline - Consumer Focused */}
                 <motion.h1

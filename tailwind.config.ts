@@ -32,7 +32,12 @@ const config: Config = {
                     100: '#ffedd5',
                     500: '#f97316',
                     900: '#7c2d12',
-                }
+                },
+                // FIFA World Cup Colors
+                "fifa-blue": "#0033A0",
+                "fifa-gold": "#D4AF37",
+                "fifa-red": "#E30613",
+                "fifa-white": "#FFFFFF",
             },
             // Enhanced animations for consumer-first UI
             animation: {

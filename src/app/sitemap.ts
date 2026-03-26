@@ -11,6 +11,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: `${baseUrl}/worldcup`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly', // High frequency during World Cup season
+      priority: 0.9, // Second only to homepage
+    },
+    {
       url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',

@@ -29,15 +29,46 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav 
+    <nav
       className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 ${
-        isScrolled 
-          ? "bg-white/80 backdrop-blur-lg border-b border-slate-200 shadow-sm py-0" 
-          : "bg-transparent border-transparent py-2"
+        isScrolled
+          ? "bg-white/80 backdrop-blur-lg border-b border-slate-200 shadow-sm"
+          : "bg-white border-b border-slate-200"
       }`}
     >
+      {/* World Cup Banner - Only show when not scrolled */}
+      {!isScrolled && (
+        <div className="hidden md:block bg-gradient-to-r from-fifa-blue via-fifa-blue/95 to-fifa-blue border-b border-fifa-gold/30">
+          <div className="container mx-auto px-4 py-2">
+            <div className="flex items-center justify-between">
+              <Link href="/worldcup" className="flex items-center gap-3 group">
+                <div className="flex items-center gap-2">
+                  <span className="text-fifa-red">⚽</span>
+                  <span className="text-xs font-bold text-fifa-white uppercase tracking-wider">
+                    FIFA WORLD CUP 2026
+                  </span>
+                </div>
+                <div className="w-px h-4 bg-fifa-white/30" />
+                <p className="text-xs text-fifa-white/90">
+                  <span className="font-semibold text-fifa-gold">New:</span> World Cup Fan Pack coming soon!
+                </p>
+              </Link>
+              <Link
+                href="/worldcup"
+                className="inline-flex items-center gap-2 px-4 py-1.5 bg-fifa-gold hover:bg-fifa-gold/90 text-fifa-blue text-xs font-bold rounded-full transition-all group"
+              >
+                Learn More
+                <svg className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className={`flex items-center justify-between ${!isScrolled ? 'h-20' : 'h-16'}`}>
 
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
@@ -52,6 +83,14 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
+            {/* World Cup Link */}
+            <Link
+              href="/worldcup"
+              className="flex items-center gap-2 text-sm font-bold text-fifa-gold hover:text-fifa-blue transition-colors"
+            >
+              <span className="text-fifa-red">⚽</span> World Cup
+            </Link>
+
             {/* Features Dropdown */}
             <div className="relative group">
               <button
@@ -120,6 +159,15 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-white border-b border-slate-200">
           <div className="px-4 py-4 space-y-3">
+            {/* World Cup Link */}
+            <Link
+              href="/worldcup"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-2 text-fifa-gold font-bold py-2 hover:text-fifa-blue"
+            >
+              <span className="text-fifa-red">⚽</span> World Cup Fan Pack
+            </Link>
+
             {/* Features Submenu */}
             <div>
               <button

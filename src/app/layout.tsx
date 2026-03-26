@@ -6,13 +6,21 @@ import StructuredData from "@/components/StructuredData";
 import { ModalProvider } from "@/context/ModalContext";
 import { structuredData } from "@/lib/seo-config";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
+  variable: "--font-inter",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-montserrat",
 });
 
 const siteConfig = {
@@ -84,9 +92,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
       <head />
-      <body className={inter.className}>
+      <body className={`${inter.className} font-sans`}>
         <StructuredData data={structuredData.consumer} />
         <StructuredData data={structuredData.organization} />
         <FirebaseAnalytics />
