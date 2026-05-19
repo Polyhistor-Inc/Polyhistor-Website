@@ -12,7 +12,7 @@ export default function Footer() {
             <h4 className="font-semibold mb-3 text-white">Product</h4>
             <ul className="space-y-2 text-sm text-white/40">
               <li><a href="/#features" onClick={() => trackNavClick({ link: "#features", location: "footer" })} className="hover:text-white transition">Features</a></li>
-              <li><a href="/#pricing" onClick={() => trackNavClick({ link: "#pricing", location: "footer" })} className="hover:text-white transition">Pricing</a></li>
+              <li><Link href="/pricing" onClick={() => trackNavClick({ link: "/pricing", location: "footer" })} className="hover:text-white transition">Pricing</Link></li>
               <li><Link href="/demo" onClick={() => trackNavClick({ link: "/demo", location: "footer" })} className="hover:text-white transition">Demo</Link></li>
             </ul>
           </div>

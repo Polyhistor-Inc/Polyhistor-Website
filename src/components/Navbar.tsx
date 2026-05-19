@@ -18,7 +18,7 @@ export default function Navbar() {
           <a href="/#features" onClick={() => trackNavClick({ link: "#features", location: "navbar" })} className="text-sm text-white/60 hover:text-white transition">Features</a>
           <Link href="/demo" onClick={() => trackNavClick({ link: "/demo", location: "navbar" })} className="text-sm text-white/60 hover:text-white transition">Demo</Link>
           <Link href="/heatmap" onClick={() => trackNavClick({ link: "/heatmap", location: "navbar" })} className="text-sm text-white/60 hover:text-white transition">Heatmap</Link>
-          <Link href="/#pricing" onClick={() => trackNavClick({ link: "#pricing", location: "navbar" })} className="text-sm text-white/60 hover:text-white transition">Pricing</Link>
+          <Link href="/pricing" onClick={() => trackNavClick({ link: "/pricing", location: "navbar" })} className="text-sm text-white/60 hover:text-white transition">Pricing</Link>
         </div>
 
         <div className="flex items-center gap-3">
@@ -50,7 +50,7 @@ export default function Navbar() {
             <a href="/#features" onClick={() => { setIsOpen(false); trackNavClick({ link: "#features", location: "mobile_menu" }); }} className="block text-white/60 hover:text-white py-2">Features</a>
             <Link href="/demo" onClick={() => { setIsOpen(false); trackNavClick({ link: "/demo", location: "mobile_menu" }); }} className="block text-white/60 hover:text-white py-2">Demo</Link>
             <Link href="/heatmap" onClick={() => { setIsOpen(false); trackNavClick({ link: "/heatmap", location: "mobile_menu" }); }} className="block text-white/60 hover:text-white py-2">Heatmap</Link>
-            <a href="/#pricing" onClick={() => { setIsOpen(false); trackNavClick({ link: "#pricing", location: "mobile_menu" }); }} className="block text-white/60 hover:text-white py-2">Pricing</a>
+            <Link href="/pricing" onClick={() => { setIsOpen(false); trackNavClick({ link: "/pricing", location: "mobile_menu" }); }} className="block text-white/60 hover:text-white py-2">Pricing</Link>
             <Link
               href="/waitlist"
               onClick={() => { setIsOpen(false); trackNavClick({ link: "/waitlist", location: "mobile_menu" }); }}
