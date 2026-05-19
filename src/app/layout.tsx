@@ -1,32 +1,22 @@
-import FirebaseAnalytics from "@/components/FirebaseAnalytics";
+import AnalyticsProvider from "@/components/AnalyticsProvider";
 import Footer from "@/components/Footer";
-import GlobalWaitlistWrapper from "@/components/GlobalWaitlistWrapper";
 import Navbar from "@/components/Navbar";
-import StructuredData from "@/components/StructuredData";
-import { ModalProvider } from "@/context/ModalContext";
-import { structuredData } from "@/lib/seo-config";
-import type { Metadata } from "next";
-import { Inter, Montserrat } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
+import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
   variable: "--font-inter",
 });
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  display: "swap",
-  variable: "--font-montserrat",
-});
-
 const siteConfig = {
-  title: "Polyhistor | Never Lose Your Friends (Or Your Money) Again",
+  title: "Polyhistor — Contextual Intelligence Engine for Location-Aware Apps",
   description:
-    "The all-in-one app to track your squad, split costs instantly, and find the perfect middle point to meet. Group travel made simple for Gen Z travelers.",
+    "Commercial location intelligence alternative: $297/mo self-hosted vs $22,880/mo incumbents. 4x faster cold-start, sub-20ms repeats. Built for AI agents.",
   url: "https://thepolyhistor.com",
 };
 
@@ -34,35 +24,33 @@ export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
   keywords: [
-    "group travel agency software",
-    "student tour operator app",
-    "travel liability protection",
-    "group travel safety app",
-    "ThePolyHistor",
-    "trip coordination platform",
+    "geospatial API",
+    "location intelligence",
+    "Commercial location API alternative",
+    "semantic search",
+    "AI agents",
+    "Polyhistor",
   ],
-  authors: [{ name: "ThePolyHistor Team" }],
-  creator: "ThePolyHistor",
-  publisher: "ThePolyHistor",
+  authors: [{ name: "Polyhistor Team" }],
+  creator: "Polyhistor",
+  publisher: "Polyhistor Inc.",
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
   metadataBase: new URL(siteConfig.url),
-  alternates: {
-    canonical: "/",
-  },
+  // Next.js auto-generates canonical per-page based on metadataBase + pathname
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
     title: siteConfig.title,
     description: siteConfig.description,
-    siteName: "ThePolyHistor",
+    siteName: "Polyhistor",
     images: [
       {
-        url: "/social-card.png?v=3",
-        alt: "ThePolyHistor App - Agency Dashboard & Mobile App",
+        url: "/og-image.png",
+        alt: "Polyhistor — Location Intelligence for AI Agents",
       },
     ],
   },
@@ -70,8 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
-    creator: "@ThePolyHistor",
-    images: [`${siteConfig.url}/social-card.png?v=3`],
+    images: [`${siteConfig.url}/og-image.png`],
   },
   robots: {
     index: true,
@@ -86,24 +73,25 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0f1117",
+  colorScheme: "dark",
+};
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
-      <head />
-      <body className={`${inter.className} font-sans`}>
-        <StructuredData data={structuredData.consumer} />
-        <StructuredData data={structuredData.organization} />
-        <FirebaseAnalytics />
-        <ModalProvider>
-          <Navbar />
-          {children}
-          <Footer />
-          <GlobalWaitlistWrapper />
-        </ModalProvider>
+    <html lang="en" className={`${inter.variable}`}>
+      <body className={`${inter.className} font-sans bg-[#0f1117] text-[#e2e8f0]`}>
+        <AnalyticsProvider />
+        <Navbar />
+        {children}
+        <Footer />
       </body>
     </html>
   );

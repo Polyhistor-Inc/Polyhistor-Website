@@ -1,35 +1,26 @@
-import { MetadataRoute } from 'next'
- 
+import { MetadataRoute } from "next";
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'ThePolyHistor',
-    short_name: 'PolyHistor',
-    description: 'ThePolyHistor is the all-in-one AI app for group travel, unifying planning, coordination, and proactive safety alerts.',
-    start_url: '/',
-    display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#ffffff',
+    name: "Polyhistor — Location Intelligence for AI Agents",
+    short_name: "Polyhistor",
+    description:
+      "Commercial location intelligence alternative: $297/mo self-hosted vs $22,880/mo incumbents. 4x faster cold-start, sub-20ms repeats. Built for AI agents.",
+    start_url: "/",
+    display: "standalone",
+    background_color: "#0f1117",
+    theme_color: "#667eea",
     icons: [
       {
-        src: '/favicon.ico',
-        sizes: 'any',
-        type: 'image/x-icon',
+        src: "/logo-120.png",
+        sizes: "120x120",
+        type: "image/png",
       },
       {
-        src: '/apple-touch-icon.png',
-        sizes: '180x180',
-        type: 'image/png',
-      },
-      {
-        src: '/android-chrome-192x192.png',
-        sizes: '192x192',
-        type: 'image/png',
-      },
-      {
-        src: '/android-chrome-512x512.png',
-        sizes: '512x512',
-        type: 'image/png',
+        src: "/logo-512.png",
+        sizes: "512x512",
+        type: "image/png",
       },
     ],
-  }
+  };
 }

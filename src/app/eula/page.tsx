@@ -11,56 +11,62 @@ export default function EULA() {
   return (
     <main className="container mx-auto px-4 pt-32 pb-16 min-h-[60vh]">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-2 text-slate-900">END USER LICENSE AGREEMENT (EULA)</h1>
-        <p className="text-slate-500 mb-8">
-          Last Updated: March 25, 2026
-          <br />
-          <Link href="/eula/versions" className="text-brand-blue hover:underline text-sm">
-            View Version History →
-          </Link>
-        </p>
+        <h1 className="text-4xl font-bold mb-2 text-white">END USER LICENSE AGREEMENT (EULA)</h1>
+        <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 mb-6">
+          <p className="text-amber-400 text-sm font-medium text-center">
+            🚧 Coming Soon — This agreement is being finalized. Check back shortly.
+          </p>
+        </div>
+        <div className="hidden">
+          <p className="text-white/50 mb-8">
+            Last Updated: March 25, 2026
+            <br />
+            <Link href="/eula/versions" className="text-[#a855f7] hover:underline text-sm">
+              View Version History →
+            </Link>
+          </p>
 
-        <div className="prose prose-slate max-w-none text-slate-700">
+          <div className="prose prose-slate max-w-none text-white/70">
 
           {/* Quick Summary Box */}
-          <div className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl p-6 mb-10 no-print">
-            <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2 not-prose">
+          <div className="bg-white/5 border-2 border-dashed border-slate-300 rounded-xl p-6 mb-10 no-print">
+            <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2 not-prose">
               At a Glance ✨
             </h2>
-            <div className="grid md:grid-cols-2 gap-4 text-sm text-slate-600 not-prose">
+            <div className="grid md:grid-cols-2 gap-4 text-sm text-white/60 not-prose">
               <ul className="space-y-3">
                 <li className="flex gap-2 items-start">
-                  <span className="text-brand-blue font-bold flex-shrink-0">•</span>
+                  <span className="text-[#a855f7] font-bold flex-shrink-0">•</span>
                   <span><strong>License:</strong> You get a limited, personal, non-commercial license to use the App.</span>
                 </li>
                 <li className="flex gap-2 items-start">
-                  <span className="text-brand-blue font-bold flex-shrink-0">•</span>
+                  <span className="text-[#a855f7] font-bold flex-shrink-0">•</span>
                   <span><strong>Virtual Goods:</strong> Virtual currency is licensed, not sold. No real-world value.</span>
                 </li>
                 <li className="flex gap-2 items-start">
-                  <span className="text-brand-blue font-bold flex-shrink-0">•</span>
+                  <span className="text-[#a855f7] font-bold flex-shrink-0">•</span>
                   <span><strong>Zero Tolerance:</strong> We strictly ban hate speech, harassment, and illegal content.</span>
                 </li>
                 <li className="flex gap-2 items-start">
-                  <span className="text-brand-blue font-bold flex-shrink-0">•</span>
+                  <span className="text-[#a855f7] font-bold flex-shrink-0">•</span>
                   <span><strong>AI Features:</strong> Verify all AI suggestions. We aren&apos;t liable for &quot;hallucinations.&quot;</span>
                 </li>
               </ul>
               <ul className="space-y-3">
                 <li className="flex gap-2 items-start">
-                  <span className="text-brand-blue font-bold flex-shrink-0">•</span>
+                  <span className="text-[#a855f7] font-bold flex-shrink-0">•</span>
                   <span><strong>Safety First:</strong> Never use the App while driving. You assume all liability.</span>
                 </li>
                 <li className="flex gap-2 items-start">
-                  <span className="text-brand-blue font-bold flex-shrink-0">•</span>
+                  <span className="text-[#a855f7] font-bold flex-shrink-0">•</span>
                   <span><strong>Network Reliance:</strong> Live Tracking requires data/WiFi/GPS. No 100% uptime guarantee.</span>
                 </li>
                 <li className="flex gap-2 items-start">
-                  <span className="text-brand-blue font-bold flex-shrink-0">•</span>
+                  <span className="text-[#a855f7] font-bold flex-shrink-0">•</span>
                   <span><strong>Agencies:</strong> Travel Agencies are independent. We don&apos;t control them.</span>
                 </li>
                 <li className="flex gap-2 items-start">
-                  <span className="text-brand-blue font-bold flex-shrink-0">•</span>
+                  <span className="text-[#a855f7] font-bold flex-shrink-0">•</span>
                   <span><strong>No Warranty:</strong> The App is provided &quot;as is&quot; without guarantees.</span>
                 </li>
               </ul>
@@ -68,23 +74,23 @@ export default function EULA() {
           </div>
 
           {/* Table of Contents */}
-          <div className="mb-12 p-6 bg-white border border-slate-200 rounded-lg shadow-sm no-print">
-            <h3 className="text-lg font-bold text-slate-900 mb-4">Table of Contents</h3>
+          <div className="mb-12 p-6 bg-white border border-white/10 rounded-lg shadow-sm no-print">
+            <h3 className="text-lg font-bold text-white mb-4">Table of Contents</h3>
             <div className="grid md:grid-cols-3 gap-x-8 gap-y-2 text-sm">
-              <a href="#scope" className="text-brand-blue hover:underline">1. Scope of License</a>
-              <a href="#virtual-goods" className="text-brand-blue hover:underline">2. Virtual Goods License</a>
-              <a href="#ugc" className="text-brand-blue hover:underline">3. User Generated Content</a>
-              <a href="#ai" className="text-brand-blue hover:underline">4. AI Disclaimer</a>
-              <a href="#location" className="text-brand-blue hover:underline">5. Location &amp; Navigation</a>
-              <a href="#service-availability" className="text-brand-blue hover:underline">6. Service Availability</a>
-              <a href="#agencies" className="text-brand-blue hover:underline">7. Agency &amp; Group Travel</a>
-              <a href="#updates" className="text-brand-blue hover:underline">8. Updates &amp; Maintenance</a>
-              <a href="#external" className="text-brand-blue hover:underline">9. External Services</a>
-              <a href="#warranty" className="text-brand-blue hover:underline">10. No Warranty</a>
-              <a href="#liability" className="text-brand-blue hover:underline">11. Limitation of Liability</a>
-              <a href="#apple" className="text-brand-blue hover:underline">12. Apple iOS Terms</a>
-              <a href="#legal" className="text-brand-blue hover:underline">13. Legal Compliance</a>
-              <a href="#contact" className="text-brand-blue hover:underline">14. Contact Information</a>
+              <a href="#scope" className="text-[#a855f7] hover:underline">1. Scope of License</a>
+              <a href="#virtual-goods" className="text-[#a855f7] hover:underline">2. Virtual Goods License</a>
+              <a href="#ugc" className="text-[#a855f7] hover:underline">3. User Generated Content</a>
+              <a href="#ai" className="text-[#a855f7] hover:underline">4. AI Disclaimer</a>
+              <a href="#location" className="text-[#a855f7] hover:underline">5. Location &amp; Navigation</a>
+              <a href="#service-availability" className="text-[#a855f7] hover:underline">6. Service Availability</a>
+              <a href="#agencies" className="text-[#a855f7] hover:underline">7. Agency &amp; Group Travel</a>
+              <a href="#updates" className="text-[#a855f7] hover:underline">8. Updates &amp; Maintenance</a>
+              <a href="#external" className="text-[#a855f7] hover:underline">9. External Services</a>
+              <a href="#warranty" className="text-[#a855f7] hover:underline">10. No Warranty</a>
+              <a href="#liability" className="text-[#a855f7] hover:underline">11. Limitation of Liability</a>
+              <a href="#apple" className="text-[#a855f7] hover:underline">12. Apple iOS Terms</a>
+              <a href="#legal" className="text-[#a855f7] hover:underline">13. Legal Compliance</a>
+              <a href="#contact" className="text-[#a855f7] hover:underline">14. Contact Information</a>
             </div>
           </div>
 
@@ -97,7 +103,7 @@ export default function EULA() {
 
           {/* 1. Scope of License */}
           <section className="mb-8" id="scope">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">1. Scope of License</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">1. Scope of License</h2>
             <p className="mb-4">
               Polyhistor Inc grants you a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to download, install, and use the App for your personal, non-commercial purposes strictly in accordance with this Agreement and the Usage Rules set forth in the Apple Media Services Terms and Conditions and/or the Google Play Terms of Service.
             </p>
@@ -108,7 +114,7 @@ export default function EULA() {
 
           {/* 2. Virtual Goods License */}
           <section className="mb-8" id="virtual-goods">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">2. Virtual Goods License</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">2. Virtual Goods License</h2>
             <p className="mb-4">The App may include virtual currency (coins), points, badges, and other virtual items (collectively, &quot;Virtual Goods&quot;).</p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li><strong>Licensed, Not Sold:</strong> Virtual Goods are <strong>licensed, not sold</strong> to you. You do not acquire any ownership rights in Virtual Goods.</li>
@@ -121,7 +127,7 @@ export default function EULA() {
 
           {/* 3. User Generated Content &amp; Zero Tolerance Policy */}
           <section className="mb-8" id="ugc">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">3. User Generated Content &amp; Zero Tolerance Policy</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">3. User Generated Content &amp; Zero Tolerance Policy</h2>
             <p className="mb-4">The App contains interactive features (Group Chats, Itinerary Comments, Photo Uploads) that allow users to post content. To ensure a safe community, we enforce a strict Zero Tolerance Policy for objectionable content.</p>
             <p className="mb-4"><strong>Prohibited Content:</strong> You are strictly prohibited from uploading, sharing, or transmitting content that is:</p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
@@ -137,7 +143,7 @@ export default function EULA() {
 
           {/* 4. Artificial Intelligence (AI) Disclaimer */}
           <section className="mb-8" id="ai">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">4. Artificial Intelligence (AI) Disclaimer</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">4. Artificial Intelligence (AI) Disclaimer</h2>
             <p className="mb-4">The App utilizes Generative AI technologies, including Google Gemini, to provide travel recommendations, itinerary planning, and chat assistance.</p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li><strong>No Warranty of Accuracy:</strong> AI is experimental and may produce &quot;hallucinations,&quot; errors, or outdated information. You acknowledge that opening hours, prices, and location descriptions generated by AI may be incorrect.</li>
@@ -148,7 +154,7 @@ export default function EULA() {
 
           {/* 5. Location Services &amp; Navigation Safety */}
           <section className="mb-8" id="location">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">5. Location Services &amp; Navigation Safety</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">5. Location Services &amp; Navigation Safety</h2>
             <p className="mb-4">The App integrates third-party mapping services (including Mapbox and Google Places) to provide real-time navigation and location sharing.</p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li><strong>Distracted Driving - CRITICAL WARNING:</strong> <strong>NEVER</strong> interact with the App while driving. You agree to use the App&apos;s navigation features only when it is safe and legal to do so. <strong>YOU ASSUME ALL PHYSICAL AND LEGAL LIABILITY</strong> for any accidents, injuries, deaths, traffic violations, or damages resulting from use of the App while driving or operating any vehicle. Polyhistor Inc expressly disclaims any liability for such incidents.</li>
@@ -159,7 +165,7 @@ export default function EULA() {
 
           {/* 6. Service Availability &amp; Network Reliance */}
           <section className="mb-8" id="service-availability">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">6. Service Availability &amp; Network Reliance</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">6. Service Availability &amp; Network Reliance</h2>
             <p className="mb-4">The Service depends on various technical infrastructure and network connectivity to function properly.</p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li><strong>No Uptime Guarantee:</strong> Polyhistor Inc does <strong>not guarantee 100% uptime</strong> or uninterrupted availability of the Service. Server maintenance, technical failures, network outages, and force majeure events may cause temporary service interruptions.</li>
@@ -171,7 +177,7 @@ export default function EULA() {
 
           {/* 7. Agency &amp; Group Travel */}
           <section className="mb-8" id="agencies">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">7. Agency &amp; Group Travel</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">7. Agency &amp; Group Travel</h2>
             <p className="mb-4">If you use the App to participate in a trip organized by a third-party Travel Agency (&quot;Agency&quot;):</p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li><strong>Independent Entities:</strong> The Agency is an independent third party. Polyhistor Inc provides the software platform but does not control the Agency&apos;s staff, itinerary decisions, or safety protocols.</li>
@@ -181,7 +187,7 @@ export default function EULA() {
 
           {/* 8. Updates and Maintenance */}
           <section className="mb-8" id="updates">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">8. Updates and Maintenance</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">8. Updates and Maintenance</h2>
             <p className="mb-4">
               Polyhistor Inc may generally provide updates to the App to improve performance or fix bugs. You acknowledge that:
             </p>
@@ -193,7 +199,7 @@ export default function EULA() {
 
           {/* 9. External Services */}
           <section className="mb-8" id="external">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">9. External Services</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">9. External Services</h2>
             <p>
               The App enables access to third-party services and websites (collectively and individually, &quot;External Services&quot;), including Mapbox, Google Maps, OpenMeteo, and others. Use of External Services is at your sole risk. We are not responsible for the content, accuracy, or privacy practices of any External Service.
             </p>
@@ -201,7 +207,7 @@ export default function EULA() {
 
           {/* 10. NO WARRANTY */}
           <section className="mb-8" id="warranty">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">10. NO WARRANTY</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">10. NO WARRANTY</h2>
             <p className="uppercase text-sm leading-relaxed font-bold mb-4">
               THE APP IS PROVIDED &quot;AS IS&quot; AND &quot;AS AVAILABLE,&quot; WITH ALL FAULTS AND WITHOUT WARRANTY OF ANY KIND.
             </p>
@@ -212,7 +218,7 @@ export default function EULA() {
 
           {/* 11. LIMITATION OF LIABILITY */}
           <section className="mb-8" id="liability">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">11. LIMITATION OF LIABILITY</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">11. LIMITATION OF LIABILITY</h2>
             <p className="uppercase text-sm leading-relaxed">
               TO THE EXTENT NOT PROHIBITED BY LAW, IN NO EVENT SHALL POLYHISTOR INC BE LIABLE FOR PERSONAL INJURY, OR ANY INCIDENTAL, SPECIAL, INDIRECT, OR CONSEQUENTIAL DAMAGES WHATSOEVER, INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF PROFITS, LOSS OF DATA, BUSINESS INTERRUPTION, OR ANY OTHER COMMERCIAL DAMAGES OR LOSSES, ARISING OUT OF OR RELATED TO YOUR USE OF OR INABILITY TO USE THE APP, HOWEVER CAUSED.
             </p>
@@ -220,7 +226,7 @@ export default function EULA() {
 
           {/* 12. Specific Terms for Apple iOS Users */}
           <section className="mb-8" id="apple">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">12. Specific Terms for Apple iOS Users</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">12. Specific Terms for Apple iOS Users</h2>
             <p className="mb-4">If you accessed or downloaded the App from the Apple App Store, you acknowledge and agree that:</p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li><strong>Parties:</strong> This Agreement is between You and Polyhistor Inc only, not Apple. Polyhistor Inc, not Apple, is solely responsible for the App and the content thereof.</li>
@@ -232,7 +238,7 @@ export default function EULA() {
 
           {/* 13. Legal Compliance */}
           <section className="mb-8" id="legal">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">13. Legal Compliance</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">13. Legal Compliance</h2>
             <p className="mb-4">
               You represent and warrant that:
             </p>
@@ -243,17 +249,18 @@ export default function EULA() {
           </section>
 
           {/* 14. Contact Information */}
-          <section className="mb-8 border-t border-slate-200 pt-8" id="contact">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">14. Contact Information</h2>
+          <section className="mb-8 border-t border-white/10 pt-8" id="contact">
+            <h2 className="text-2xl font-bold text-white mb-4">14. Contact Information</h2>
             <p>
               If you have any questions, complaints, or claims with respect to the App, please contact us at:
             </p>
             <p className="mt-4">
               <strong>Polyhistor Inc</strong><br />
-              <strong>Email:</strong> <a href="mailto:naveengali@thepolyhistor.com" className="text-brand-blue hover:underline">naveengali@thepolyhistor.com</a>
+              <strong>Email:</strong> <a href="mailto:naveengali@thepolyhistor.com" className="text-[#a855f7] hover:underline">naveengali@thepolyhistor.com</a>
             </p>
           </section>
 
+        </div>
         </div>
       </div>
       <BackToTop />
