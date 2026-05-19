@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   creator: "Polyhistor",
   publisher: "Polyhistor Inc.",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.png",
     apple: "/apple-touch-icon.png",
   },
   metadataBase: new URL(siteConfig.url),
@@ -49,7 +49,9 @@ export const metadata: Metadata = {
     siteName: "Polyhistor",
     images: [
       {
-        url: "/og-image.png",
+        url: "/polyhistor-logo.png",
+        width: 1200,
+        height: 630,
         alt: "Polyhistor — Location Intelligence for AI Agents",
       },
     ],
@@ -58,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/og-image.png`],
+    images: [`${siteConfig.url}/polyhistor-logo.png`],
   },
   robots: {
     index: true,
