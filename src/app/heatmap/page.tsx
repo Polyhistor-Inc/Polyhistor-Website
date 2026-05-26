@@ -11,6 +11,7 @@ import { canMakeRequest, recordRequest } from "@/lib/rateLimiter";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import "leaflet/dist/leaflet.css";
 
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
@@ -256,10 +257,10 @@ export default function HeatmapPage() {
   return (
     <main className="h-screen flex flex-col pt-20">
       {/* Toolbar */}
-      <div className="bg-[#0f1117]/90 backdrop-blur-md border-b border-white/[0.06] px-4 md:px-6 py-3">
+      <div className="bg-black/80 backdrop-blur-md border-b border-white/[0.06] px-4 md:px-6 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <svg className="w-4 h-4 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" className="w-4 h-4 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="1 6 1 22 8 18 16 22 21 18 21 2 16 6 8 2 1 6" />
               <line x1="8" y1="2" x2="8" y2="18" />
               <line x1="16" y1="6" x2="16" y2="22" />
@@ -277,7 +278,7 @@ export default function HeatmapPage() {
               value={city}
               onChange={(e) => { setCity(e.target.value); trackHeatmapCityChange(e.target.value); }}
               suppressHydrationWarning
-              className="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[rgba(102,126,234,0.5)] cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-white/30 cursor-pointer"
               style={{
                 appearance: "none",
                 backgroundImage:
@@ -288,7 +289,7 @@ export default function HeatmapPage() {
               }}
             >
               {CITIES.map((c) => (
-                <option key={c.value} value={c.value} className="bg-[#141420]">
+                <option key={c.value} value={c.value} className="bg-black">
                   {c.label}
                 </option>
               ))}
@@ -298,7 +299,7 @@ export default function HeatmapPage() {
               value={tribe}
               onChange={(e) => { setTribe(e.target.value); trackHeatmapTribeChange(e.target.value); }}
               suppressHydrationWarning
-              className="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[rgba(102,126,234,0.5)] cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-white/30 cursor-pointer"
               style={{
                 appearance: "none",
                 backgroundImage:
@@ -309,7 +310,7 @@ export default function HeatmapPage() {
               }}
             >
               {TRIBES.map((t) => (
-                <option key={t.id} value={t.id} className="bg-[#141420]">
+                <option key={t.id} value={t.id} className="bg-black">
                   {t.label}
                 </option>
               ))}
@@ -318,7 +319,7 @@ export default function HeatmapPage() {
             <button
               onClick={loadHeatmap}
               disabled={loading}
-              className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:opacity-90 transition disabled:opacity-50 whitespace-nowrap"
+              className="bg-white text-black px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-zinc-200 transition disabled:opacity-50 whitespace-nowrap"
             >
               {loading ? "Loading..." : "Load"}
             </button>
@@ -345,19 +346,19 @@ export default function HeatmapPage() {
         </MapContainer>
 
         {/* Legend */}
-        <div className="absolute bottom-4 right-4 z-[400] bg-[#0f1117]/90 backdrop-blur-md border border-white/10 rounded-xl p-3 text-xs">
+        <div className="absolute bottom-4 right-4 z-[400] bg-black/80 backdrop-blur-md border border-white/10 rounded-xl p-3 text-xs">
           <div className="font-semibold text-white/70 mb-2">Density</div>
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm" style={{ background: "#dc2626" }} />
+              <div className="w-3 h-3 rounded-sm bg-red-600" />
               <span className="text-white/50">High</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm" style={{ background: "#f59e0b" }} />
+              <div className="w-3 h-3 rounded-sm bg-amber-500" />
               <span className="text-white/50">Medium</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm" style={{ background: "#ca8a04" }} />
+              <div className="w-3 h-3 rounded-sm bg-yellow-600" />
               <span className="text-white/50">Low</span>
             </div>
           </div>

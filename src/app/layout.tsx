@@ -3,7 +3,6 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
 const inter = Inter({
@@ -14,7 +13,7 @@ const inter = Inter({
 });
 
 const siteConfig = {
-  title: "Polyhistor — Contextual Intelligence Engine for Location-Aware Apps",
+  title: "Polyhistor | Location Intelligence for AI Agents",
   description:
     "Commercial location intelligence alternative: $297/mo self-hosted vs $22,880/mo incumbents. 4x faster cold-start, sub-20ms repeats. Built for AI agents.",
   url: "https://thepolyhistor.com",
@@ -30,6 +29,9 @@ export const metadata: Metadata = {
     "semantic search",
     "AI agents",
     "Polyhistor",
+    "Polyhistor API",
+    "Polyhistor map",
+    "Polyhistor search",
   ],
   authors: [{ name: "Polyhistor Team" }],
   creator: "Polyhistor",
@@ -39,6 +41,9 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   metadataBase: new URL(siteConfig.url),
+  alternates: {
+    canonical: "/",
+  },
   // Next.js auto-generates canonical per-page based on metadataBase + pathname
   openGraph: {
     type: "website",
@@ -89,7 +94,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable}`}>
-      <body className={`${inter.className} font-sans bg-[#0f1117] text-[#e2e8f0]`}>
+      <body className={`${inter.className} font-sans bg-black text-zinc-400 antialiased selection:bg-white/20`}>
         <AnalyticsProvider />
         <Navbar />
         {children}

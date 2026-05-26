@@ -298,7 +298,7 @@ export default function DemoPage() {
         <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-4 md:p-5 mb-4">
           <div className="flex flex-col md:flex-row gap-3">
             <div className="flex-1 relative">
-              <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <input
@@ -307,25 +307,25 @@ export default function DemoPage() {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && runSearch()}
                 placeholder="e.g., cozy coffee shop for working"
-                className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-white/30 focus:outline-none focus:border-[rgba(102,126,234,0.5)] focus:bg-white/[0.05] transition text-[15px]"
+                className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/[0.05] transition text-[15px]"
               />
             </div>
             <select
               value={city}
               onChange={(e) => { setCity(e.target.value); trackDemoCityChange(e.target.value); }}
-              className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:border-[rgba(102,126,234,0.5)] transition md:w-48 text-[15px]"
+              className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:border-white/30 transition md:w-48 text-[15px]"
               style={{ appearance: "none", backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(255,255,255,0.4)' d='M6 8L1 3h10z'/%3E%3C/svg%3E\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center", paddingRight: "36px" }}
             >
               {CITIES.map((c) => (
-                <option key={c.value} value={c.value} className="bg-[#141420]">{c.label}</option>
+                <option key={c.value} value={c.value} className="bg-black">{c.label}</option>
               ))}
             </select>
             <button
               onClick={() => runSearch()}
               disabled={loading || !rateLimit.allowed}
-              className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition flex items-center justify-center gap-2 disabled:opacity-50"
+              className="bg-white text-black px-6 py-3 rounded-xl font-medium hover:bg-zinc-200 transition flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               {loading ? "Searching..." : "Search"}
@@ -348,8 +348,8 @@ export default function DemoPage() {
                     }}
                     className={`px-3 py-1.5 rounded-[20px] text-[13px] font-medium transition whitespace-nowrap ${
                       selectedCategory === cat.id
-                        ? "bg-[rgba(102,126,234,0.15)] border-[rgba(102,126,234,0.4)] text-[#a855f7]"
-                        : "bg-white/[0.04] border border-white/[0.08] text-white/60 hover:bg-[rgba(102,126,234,0.1)] hover:border-[rgba(102,126,234,0.3)] hover:text-white/90"
+                        ? "bg-white text-black border-white"
+                        : "bg-white/[0.04] border border-white/[0.08] text-white/60 hover:bg-white/10 hover:border-white/30 hover:text-white/90"
                     }`}
                   >
                     {cat.icon} {cat.label}
@@ -358,7 +358,7 @@ export default function DemoPage() {
                 <button
                   onClick={surpriseMe}
                   disabled={loading || !rateLimit.allowed}
-                  className="px-3 py-1.5 rounded-[20px] text-[13px] font-medium bg-white/[0.04] border border-white/[0.08] text-white/60 hover:bg-purple-500/10 hover:border-purple-500/30 hover:text-purple-400 transition whitespace-nowrap disabled:opacity-40"
+                  className="px-3 py-1.5 rounded-[20px] text-[13px] font-medium bg-white/[0.04] border border-white/[0.08] text-white/60 hover:bg-white/10 hover:border-white/30 hover:text-white transition whitespace-nowrap disabled:opacity-40"
                 >
                   🎲 Surprise Me
                 </button>
@@ -381,7 +381,7 @@ export default function DemoPage() {
                   disabled={!rateLimit.allowed}
                   className={`px-3 py-1.5 rounded-lg text-[13px] transition disabled:opacity-40 ${
                     activeChip === `${selectedCategory}-${i}`
-                      ? "bg-[rgba(102,126,234,0.15)] border border-[rgba(102,126,234,0.4)] text-[#a855f7]"
+                      ? "bg-white/10 border border-white/30 text-white"
                       : "bg-white/[0.03] border border-white/[0.06] text-white/50 hover:text-white/80 hover:border-white/15"
                   }`}
                 >
@@ -405,20 +405,20 @@ export default function DemoPage() {
         </div>
 
         {/* Results + Map */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4" style={{ minHeight: "480px" }}>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4 min-h-[480px]">
           <div className="lg:col-span-2 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-4 flex flex-col">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold text-sm text-white/70">Results</h3>
               {latency !== null && (
                 <div className={`inline-flex items-center gap-[6px] px-3 py-1 rounded-[20px] text-xs font-medium border ${latency > 100 ? "bg-amber-500/[0.08] border-amber-500/[0.15] text-amber-500" : "bg-emerald-500/[0.08] border-emerald-500/[0.15] text-emerald-500"}`}>
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg aria-hidden="true" className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                   {latency}ms
                 </div>
               )}
             </div>
-            <div className="flex-1 overflow-y-auto space-y-2" style={{ maxHeight: "440px" }}>
+            <div className="flex-1 overflow-y-auto space-y-2 max-h-[440px]">
               {results.length === 0 && !loading && !error && (
                 <p className="text-white/30 text-center py-20">Enter a query and click Search</p>
               )}
@@ -458,7 +458,7 @@ export default function DemoPage() {
                     ref={(el) => { resultRefs.current[i] = el; }}
                     className={`p-4 bg-white/5 rounded-xl border transition cursor-pointer ${
                       focusCoord?.lat === place.latitude && focusCoord?.lon === place.longitude
-                        ? "border-[rgba(102,126,234,0.4)] bg-[rgba(102,126,234,0.06)]"
+                        ? "border-white/30 bg-white/[0.08]"
                         : "border-white/5 hover:border-white/10"
                     }`}
                     style={{ animation: `fadeIn 0.3s ease ${i * 0.05}s both` }}
@@ -566,7 +566,7 @@ export default function DemoPage() {
                 )}
                 {results.map((place, i) => {
                   const score = place.vibe_match_score || 0;
-                  const pinColor = score >= 0.8 ? "#10b981" : score >= 0.6 ? "#f59e0b" : "#667eea";
+                  const pinColor = score >= 0.8 ? "#10b981" : score >= 0.6 ? "#f59e0b" : "#71717a";
                   return (
                     <CircleMarker
                       key={place.id || i}
@@ -614,8 +614,8 @@ export default function DemoPage() {
           <h2 className="text-2xl font-bold mb-3">Ready to build?</h2>
           <p className="text-white/50 mb-6">Get early access and start building with contextual location intelligence.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link href="/heatmap" onClick={() => trackCTAClick({ label: "Explore Tribe Heatmap", location: "demo_page_bottom", href: "/heatmap" })} className="px-8 py-3 rounded-xl font-semibold border border-white/15 hover:border-white/30 transition text-white">Explore Tribe Heatmap</Link>
-            <Link href="/waitlist" onClick={() => trackCTAClick({ label: "Join the Waitlist", location: "demo_page_bottom", href: "/waitlist" })} className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-8 py-3 rounded-xl font-semibold hover:opacity-90 transition">Join the Waitlist</Link>
+            <Link href="/heatmap" onClick={() => trackCTAClick({ label: "Explore Tribe Heatmap", location: "demo_page_bottom", href: "/heatmap" })} className="px-8 py-3 rounded-xl font-medium border border-white/15 hover:border-white/30 transition text-white">Explore Tribe Heatmap</Link>
+            <Link href="/waitlist" onClick={() => trackCTAClick({ label: "Join the Waitlist", location: "demo_page_bottom", href: "/waitlist" })} className="bg-white text-black px-8 py-3 rounded-xl font-medium hover:bg-zinc-200 transition">Join the Waitlist</Link>
           </div>
         </div>
       </section>

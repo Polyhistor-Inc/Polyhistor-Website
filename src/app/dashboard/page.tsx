@@ -76,7 +76,7 @@ export default function DashboardPage() {
       {/* Nav */}
       <nav className="border-b border-white/5 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src="/logo.svg" alt="Polyhistor" className="h-8 w-auto" />
+          <img src="/logo.svg" alt="Polyhistor" width="100" height="32" className="h-8 w-auto" />
         </div>
         <div className="flex items-center gap-4">
           <Link href="/" className="text-sm text-white/60 hover:text-white transition">Home</Link>
@@ -95,7 +95,7 @@ export default function DashboardPage() {
             {/* Generate Key */}
             <div className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-6">
               <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg aria-hidden="true" className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                 </svg>
                 Generate API Key
@@ -109,7 +109,7 @@ export default function DashboardPage() {
                       value={keyName}
                       onChange={(e) => setKeyName(e.target.value)}
                       placeholder="My App"
-                      className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-[#667eea]"
+                      className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-white/30"
                       required
                     />
                   </div>
@@ -120,7 +120,7 @@ export default function DashboardPage() {
                       value={keyEmail}
                       onChange={(e) => setKeyEmail(e.target.value)}
                       placeholder="dev@example.com"
-                      className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-[#667eea]"
+                      className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-white/30"
                       required
                     />
                   </div>
@@ -130,7 +130,7 @@ export default function DashboardPage() {
                   <select
                     value={keyTier}
                     onChange={(e) => setKeyTier(e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#667eea]"
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-white/30"
                   >
                     <option value="free">Free — 30 req/min, 5,000/mo</option>
                     <option value="pro">Pro — $29/mo, 300 req/min, 100,000/mo</option>
@@ -139,7 +139,7 @@ export default function DashboardPage() {
                 </div>
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-6 py-2.5 rounded-lg font-medium transition hover:opacity-90"
+                  className="bg-white text-black px-6 py-2.5 rounded-lg font-medium transition hover:bg-zinc-200"
                 >
                   Generate Key
                 </button>
@@ -151,7 +151,7 @@ export default function DashboardPage() {
                   <div className="bg-[#1a1d29] rounded-lg p-3 flex items-center justify-between">
                     <code className="text-emerald-300 break-all text-sm">{generatedKey}</code>
                     <button onClick={copyKey} className="text-white/60 hover:text-white ml-2 flex-shrink-0 cursor-pointer">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg aria-hidden="true" className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                       </svg>
                     </button>
@@ -163,7 +163,7 @@ export default function DashboardPage() {
             {/* Quick Start */}
             <div className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-6">
               <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg aria-hidden="true" className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                 </svg>
                 Quick Start
@@ -185,7 +185,7 @@ export default function DashboardPage() {
               </div>
               <div className="bg-[#1a1d29] rounded-lg p-4 overflow-x-auto relative">
                 <button onClick={copyCode} className="absolute top-3 right-3 text-white/40 hover:text-white cursor-pointer">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
                 </button>
@@ -202,7 +202,7 @@ export default function DashboardPage() {
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-white/50 mb-1">Requests Today</p>
-                  <p className="text-[2rem] font-bold bg-gradient-to-r from-[#667eea] to-[#a855f7] bg-clip-text text-transparent">—</p>
+                  <p className="text-[2rem] font-bold text-white">—</p>
                 </div>
                 <div>
                   <p className="text-sm text-white/50 mb-1">Requests This Month</p>

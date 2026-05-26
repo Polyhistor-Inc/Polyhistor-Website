@@ -64,7 +64,7 @@ export default function WaitlistPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Ada Lovelace"
-                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-white/30 focus:outline-none focus:border-[rgba(102,126,234,0.5)] focus:bg-white/[0.05] transition text-[15px]"
+                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/[0.05] transition text-[15px]"
                     required
                   />
                 </div>
@@ -75,7 +75,7 @@ export default function WaitlistPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="ada@example.com"
-                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-white/30 focus:outline-none focus:border-[rgba(102,126,234,0.5)] focus:bg-white/[0.05] transition text-[15px]"
+                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/[0.05] transition text-[15px]"
                     required
                   />
                 </div>
@@ -86,7 +86,7 @@ export default function WaitlistPage() {
                   <select
                     value={useCase}
                     onChange={(e) => setUseCase(e.target.value)}
-                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:border-[rgba(102,126,234,0.5)] transition text-[15px]"
+                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:border-white/30 transition text-[15px]"
                     style={{ appearance: "none", backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(255,255,255,0.4)' d='M6 8L1 3h10z'/%3E%3C/svg%3E\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 16px center", paddingRight: "40px" }}
                   >
                     <option value="">Select one...</option>
@@ -100,7 +100,7 @@ export default function WaitlistPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-6 py-3.5 rounded-xl font-semibold hover:opacity-90 transition disabled:opacity-50 mt-2"
+                  className="w-full bg-white text-black px-6 py-3.5 rounded-xl font-semibold hover:bg-zinc-200 transition disabled:opacity-50 mt-2"
                 >
                   {loading ? "Joining..." : "Join Waitlist"}
                 </button>
@@ -119,7 +119,7 @@ export default function WaitlistPage() {
                   "Unsubscribe anytime",
                 ].map((item) => (
                   <div key={item} className="flex items-center gap-[10px] text-sm text-white/50">
-                    <svg className="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg aria-hidden="true" className="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <span>{item}</span>
@@ -132,14 +132,14 @@ export default function WaitlistPage() {
           <div className="text-center animate-[fadeIn_0.4s_ease]">
             <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-10">
               <div className="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg aria-hidden="true" className="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
               <h2 className="text-2xl font-bold mb-3">You&apos;re on the list!</h2>
               <p className="text-white/50 mb-6">We&apos;ll email you as soon as early access opens. In the meantime, try the demo.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Link href="/demo" className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-6 py-2.5 rounded-lg font-medium hover:opacity-90 transition">Try the Demo</Link>
+                <Link href="/demo" className="bg-white text-black px-6 py-2.5 rounded-lg font-medium hover:bg-zinc-200 transition">Try the Demo</Link>
 
               </div>
             </div>

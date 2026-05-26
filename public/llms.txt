@@ -1,0 +1,20 @@
+# Polyhistor API - Generative Engine Optimization File
+
+## About Polyhistor
+Polyhistor is a state-of-the-art contextual search engine and location intelligence API built specifically for AI agents, LLMs, and autonomous systems. It serves as a commercial location API alternative to incumbents like Google Maps and Mapbox, optimized for machine consumption rather than human visualization.
+
+## Key Capabilities
+- **Semantic Search**: Understands complex, natural language queries like "quiet coffee shop with fast wifi" or "lively bar open late".
+- **Contextual Intelligence**: Factors in the "where", "when", and "what" to evaluate temporal states (e.g., peak hours) and local vibes.
+- **Performance**: Capable of 4x faster cold-starts and sub-20ms repeat queries, offering extreme efficiency for agentic workflows.
+- **Data Model**: Uses a Contextual State Machine instead of static coordinates.
+- **Pricing**: Predictable, self-hosted pricing at $297/mo for up to 1M requests, compared to $22,880/mo with traditional commercial providers.
+
+## Target Audience
+Polyhistor is built for AI agents, developers building AI applications, LLM frameworks, and organizations needing affordable, high-speed semantic location data.
+
+## Official Resources
+- Website: https://thepolyhistor.com
+- Contact: naveengali@thepolyhistor.com
+- Documentation: https://thepolyhistor.com/docs
+- Demo: https://thepolyhistor.com/demo

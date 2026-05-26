@@ -3,6 +3,8 @@
 import { CITIES, DEMO_QUERIES } from "@/lib/constants";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import "leaflet/dist/leaflet.css";
 
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
@@ -90,13 +92,14 @@ export default function DemoSection() {
   return (
     <section id="demo" className="py-20 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Try It Live</h2>
-          <p className="text-white/50">Search with natural language. No API key needed for the demo.</p>
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">Try It Live</h2>
+          <p className="text-white/50 text-lg">Search with natural language. No API key needed for the demo.</p>
         </div>
 
-        <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 md:p-8 shadow-[0_0_40px_rgba(102,126,234,0.15)]">
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <div className="bg-white/[0.02] border border-white/10 rounded-3xl p-6 md:p-8 relative overflow-hidden">
+          
+          <div className="flex flex-col md:flex-row gap-4 mb-6 relative z-10">
             <div className="flex-1">
               <input
                 type="text"
@@ -104,16 +107,18 @@ export default function DemoSection() {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && runSearch()}
                 placeholder="e.g., cozy coffee shop"
-                className="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-purple-500 transition text-lg"
+                className="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-white/30 transition text-lg"
               />
             </div>
+            <label htmlFor="demo-city" className="sr-only">City</label>
             <select
+              id="demo-city"
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              className="px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-purple-500 transition md:w-48"
+              className="px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-white/30 transition md:w-48"
             >
               {CITIES.map((c) => (
-                <option key={c.value} value={c.value} className="bg-[#141420]">
+                <option key={c.value} value={c.value} className="bg-black">
                   {c.label}
                 </option>
               ))}
@@ -121,7 +126,7 @@ export default function DemoSection() {
             <button
               onClick={runSearch}
               disabled={loading}
-              className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-8 py-3.5 rounded-xl font-semibold hover:opacity-90 transition disabled:opacity-50"
+              className="bg-white text-black px-8 py-3.5 rounded-xl font-medium hover:bg-zinc-200 transition disabled:opacity-50"
             >
               {loading ? "Searching..." : "Search"}
             </button>
@@ -152,36 +157,44 @@ export default function DemoSection() {
               {loading && (
                 <p className="text-white/30 text-center py-12">Searching...</p>
               )}
-              {results.map((place, i) => {
-                const score = place.vibe_match_score || place.score || 0;
-                const state = place.temporal_state || "UNKNOWN";
-                return (
-                  <div
-                    key={i}
-                    className="p-4 bg-white/5 rounded-xl border border-white/5 hover:border-white/10 transition"
-                    style={{ animation: `fadeIn 0.3s ease ${i * 0.05}s both` }}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h4 className="font-semibold text-sm">{place.name}</h4>
-                        <p className="text-xs text-white/40">{place.category || "place"}</p>
+              <AnimatePresence mode="popLayout">
+                {results.map((place, i) => {
+                  const score = place.vibe_match_score || place.score || 0;
+                  const state = place.temporal_state || "UNKNOWN";
+                  return (
+                    <motion.div
+                      key={place.name + i}
+                      layout
+                      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.3, delay: i * 0.05 }}
+                      className="p-4 bg-white/5 rounded-xl border border-white/5 hover:border-[rgba(168,85,247,0.4)] hover:bg-white/10 transition-colors cursor-pointer group"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="font-semibold text-sm group-hover:text-white transition-colors">{place.name}</h3>
+                          <p className="text-xs text-white/60">{place.category || "place"}</p>
+                        </div>
+                        <span className="text-lg font-medium text-white">
+                          {Math.round(score * 100)}%
+                        </span>
                       </div>
-                      <span className="text-lg font-bold bg-gradient-to-r from-[#667eea] to-[#a855f7] bg-clip-text text-transparent">
-                        {Math.round(score * 100)}%
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3 mt-2 text-xs">
-                      <span className={getStateColor(state)}>● {state.replace(/_/g, " ")}</span>
-                      {place.distance_meters && (
-                        <span className="text-white/30">{(place.distance_meters / 1000).toFixed(1)}km</span>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+                      <div className="flex items-center gap-3 mt-3 text-xs font-medium">
+                        <span className={getStateColor(state)}>● {state.replace(/_/g, " ")}</span>
+                        {place.distance_meters && (
+                          <span className="text-white/60 px-2 py-0.5 rounded-full bg-white/5">
+                            {(place.distance_meters / 1000).toFixed(1)}km
+                          </span>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
             </div>
 
-            <div className="h-[320px] rounded-xl overflow-hidden bg-[#0d0f17]">
+            <div className="h-[360px] rounded-2xl overflow-hidden bg-[#0d0f17] border border-white/10 relative z-10 shadow-inner">
               <MapContainer
                 center={mapCenter}
                 zoom={13}
@@ -201,19 +214,19 @@ export default function DemoSection() {
                     center={[place.latitude, place.longitude]}
                     radius={i === 0 ? 10 : 7}
                     pathOptions={{
-                      fillColor: i === 0 ? "#a855f7" : "#667eea",
-                      color: "#764ba2",
+                      fillColor: i === 0 ? "#ffffff" : "#71717a",
+                      color: "#18181b",
                       weight: 2,
                       opacity: 1,
                       fillOpacity: 0.8,
                     }}
                   >
                     <Popup>
-                      <b>{place.name}</b>
+                      <b className="text-black">{place.name}</b>
                       <br />
-                      {place.category || ""}
+                      <span className="text-black/70">{place.category || ""}</span>
                       <br />
-                      <span style={{ color: "#a855f7" }}>
+                      <span className="font-bold text-black">
                         {Math.round((place.vibe_match_score || place.score || 0) * 100)}% match
                       </span>
                     </Popup>

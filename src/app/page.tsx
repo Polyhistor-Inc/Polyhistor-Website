@@ -1,9 +1,8 @@
-import DemoSection from "@/components/landing/DemoSection";
+import HeroSection from "@/components/landing/HeroSection";
 import HomeAnalytics from "@/components/HomeAnalytics";
-import LiveStats from "@/components/LiveStats";
 import TrackedLink from "@/components/TrackedLink";
-import { FEATURES, PRICING_TIERS, USE_CASES } from "@/lib/constants";
-import Image from "next/image";
+import { LazyDemoSection, LazyFeatureGrid, LazyInteractiveCodeBlock } from "@/components/landing/ClientSections";
+import { PRICING_TIERS, USE_CASES } from "@/lib/constants";
 import Link from "next/link";
 
 const structuredData = {
@@ -66,83 +65,29 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      {/* Hero */}
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/4 w-[600px] h-[600px] rounded-full bg-radial-gradient pointer-events-none" 
-          style={{ background: "radial-gradient(circle, rgba(102,126,234,0.15) 0%, transparent 70%)" }} />
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-white/70">
-              <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-              <span>3.55M places indexed across 50 US metros</span>
-            </div>
-            <a href="https://www.producthunt.com/posts/polyhistor" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-sm text-orange-400 hover:bg-orange-500/15 transition">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.5 2h-7a.5.5 0 00-.5.5v7a.5.5 0 00.5.5h7a.5.5 0 00.5-.5v-7a.5.5 0 00-.5-.5zm-3 7V3h2.5v6H9.5zm-3 0V3h2v6h-2zm9-7h-2v6h2V2zM6 10.5v7a.5.5 0 00.5.5h7a.5.5 0 00.5-.5v-7a.5.5 0 00-.5-.5h-7a.5.5 0 00-.5.5zm3 6.5v-5h2.5v5H9zm-3 0v-5h2v5h-2zm6 0v-5h2v5h-2z"/>
-              </svg>
-              <span>Launching on Product Hunt</span>
-            </a>
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
-            Location Intelligence<br />
-            <span className="bg-gradient-to-r from-[#667eea] via-[#a855f7] to-[#764ba2] bg-clip-text text-transparent">
-              for AI Agents
-            </span>
-          </h1>
-          <p className="text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed">
-            A contextual search engine that understands <em>where</em>, <em>when</em>, and <em>what</em> —
-            not just coordinates. Built for AI agents that need real-world context.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <TrackedLink href="/demo" label="Try the Demo" location="hero" className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-8 py-3.5 rounded-xl font-semibold text-lg hover:opacity-90 transition shadow-lg shadow-purple-500/20">
-              Try the Demo
-            </TrackedLink>
-            <TrackedLink href="/waitlist" label="Join the Waitlist" location="hero" className="px-8 py-3.5 rounded-xl font-semibold text-lg border border-white/15 hover:border-white/30 transition text-white">
-              Join the Waitlist
-            </TrackedLink>
-          </div>
-
-          <LiveStats />
-        </div>
-      </section>
+      <HeroSection />
 
       {/* Interactive Demo */}
-      <DemoSection />
+      <LazyDemoSection />
 
       {/* Features */}
-      <section id="features" className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Five Intelligence Layers</h2>
-            <p className="text-white/50 max-w-xl mx-auto">No other geospatial API combines semantic, temporal, and social dimensions.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {FEATURES.map((feature, i) => (
-              <div key={i} data-track-id={feature.title} data-track-type="feature" className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 hover:border-[rgba(102,126,234,0.3)] hover:-translate-y-0.5 transition-all duration-300">
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${feature.iconBg || "bg-gradient-to-br from-[#667eea] to-[#764ba2]"}`}>
-                  {feature.icon}
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-sm text-white/50 leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <LazyFeatureGrid />
 
       {/* Performance Proof */}
-      <section className="py-20 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Performance That Speaks</h2>
-            <p className="text-white/50">Benchmarked against commercial location APIs at 1M requests/month.</p>
+      <section className="py-24 px-6 relative">
+        <div className="max-w-5xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-medium mb-6 tracking-tight">Performance That Speaks</h2>
+            <p className="text-zinc-400 text-lg">
+              Polyhistor is benchmarked against leading commercial location APIs at 1M requests/month. 
+              Our geospatial data architecture guarantees unparalleled speed for AI agents.
+            </p>
           </div>
-          <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+          <div className="bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-left">
+              <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-white/10">
+                  <tr className="border-b border-white/10 bg-white/5">
                     <th className="px-6 py-4 text-sm font-medium text-white/40">Metric</th>
                     <th className="px-6 py-4 text-sm font-medium text-purple-400">Polyhistor</th>
                     <th className="px-6 py-4 text-sm font-medium text-white/40">Commercial APIs</th>
@@ -158,11 +103,11 @@ export default function HomePage() {
                     { metric: "Semantic Recall@10", poly: "0.97", google: "—", improvement: "Top-10 retrieval", highlight: true },
                     { metric: "Data Model", poly: "Contextual State Machine", google: "Static Coordinates", improvement: "Agent-native", highlight: false },
                   ].map((row, i) => (
-                    <tr key={i} className="border-b border-white/5 last:border-b-0">
-                      <td className="px-6 py-4 text-sm">{row.metric}</td>
-                      <td className={`px-6 py-4 text-sm font-bold ${row.highlight ? "text-green-400" : "text-purple-400"}`}>{row.poly}</td>
-                      <td className="px-6 py-4 text-sm text-white/60">{row.google}</td>
-                      <td className={`px-6 py-4 text-sm font-bold ${row.highlight ? "text-green-400" : "text-purple-400"}`}>{row.improvement}</td>
+                    <tr key={i} className="border-b border-white/5 last:border-b-0 hover:bg-white/[0.03] transition-colors group">
+                      <td className="px-6 py-5 text-sm font-medium text-white/80">{row.metric}</td>
+                      <td className="px-6 py-5 text-sm font-bold text-white">{row.poly}</td>
+                      <td className="px-6 py-5 text-sm text-zinc-500">{row.google}</td>
+                      <td className={`px-6 py-5 text-sm font-medium ${row.highlight ? "text-white" : "text-zinc-400"}`}>{row.improvement}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -173,38 +118,29 @@ export default function HomePage() {
       </section>
 
       {/* Code Preview */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Simple API. Powerful Results.</h2>
-            <p className="text-white/50">One endpoint. All the intelligence. Results in 19ms.</p>
+      <section className="py-24 px-6 relative">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">Simple API. Powerful Results.</h2>
+            <p className="text-white/50 text-lg">
+              One Polyhistor API endpoint handles all the heavy lifting. Get rich location intelligence and semantic search results in under 19ms.
+            </p>
           </div>
-          <div className="bg-[#0d0f17] border border-white/[0.06] rounded-xl p-6 overflow-x-auto">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-              </div>
-              <span className="text-xs text-white/30">cURL</span>
-            </div>
-            <pre className="text-sm leading-relaxed">
-              <span className="text-purple-400">curl</span> -X GET <span className="text-green-400">&quot;https://Api_URL_Coming_Soon/api/v1/unified/search?query=cozy+coffee+shop&amp;city=sf&quot;</span> \{"\n"}
-              {"  "}-H <span className="text-green-400">&quot;X-API-Key: dgx_live_xxxxxxxxxxxxxxxx&quot;</span>
-            </pre>
-          </div>
-          <div className="bg-[#0d0f17] border border-white/[0.06] rounded-xl p-6 overflow-x-auto mt-4">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-              </div>
-              <span className="text-xs text-white/30">JSON Response</span>
-            </div>
-            <pre className="text-sm leading-relaxed">
-{`{\n  "query": "cozy coffee shop",\n  "city": "San Francisco",\n  "results": [\n    {\n      "name": "Sightglass Coffee",\n      "category": "coffee_shop",\n      "vibe_match_score": 0.91,\n      "temporal_state": "PEAK",\n      "tribe_density": 0.72,\n      "recommendation": "GO NOW"\n    }\n  ]\n}`}
-            </pre>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <LazyInteractiveCodeBlock 
+              title="Request (cURL)"
+              language="curl"
+              code={'curl -X GET "https://Api_URL_Coming_Soon/api/v1/unified/search?query=cozy+coffee+shop&city=sf" \\\n  -H "X-API-Key: dgx_live_xxxxxxxxxxxxxxxx"'}
+              delay={0}
+            />
+            
+            <LazyInteractiveCodeBlock 
+              title="Response (JSON)"
+              language="json"
+              code={'{\n  "query": "cozy coffee shop",\n  "city": "San Francisco",\n  "results": [\n    {\n      "name": "Sightglass Coffee",\n      "category": "coffee_shop",\n      "vibe_match_score": 0.91,\n      "temporal_state": "PEAK",\n      "tribe_density": 0.72,\n      "recommendation": "GO NOW"\n    }\n  ]\n}'}
+              delay={0.2}
+            />
           </div>
         </div>
       </section>
@@ -222,15 +158,15 @@ export default function HomePage() {
                 key={tier.name}
                 data-track-id={tier.name}
                 data-track-type="pricing"
-                className={`rounded-2xl p-8 ${
+                className={`rounded-2xl p-8 transition-all duration-300 bg-white/[0.02] border ${
                   tier.popular
-                    ? "border border-[rgba(102,126,234,0.4)] bg-gradient-to-br from-[rgba(102,126,234,0.06)] to-[rgba(118,75,162,0.06)] relative"
-                    : "bg-white/[0.02] border border-white/[0.08]"
+                    ? "border-white/30"
+                    : "border-white/10"
                 }`}
               >
                 {tier.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white text-xs font-semibold px-4 py-1 rounded-full">
+                    <span className="bg-white text-black text-xs font-bold px-4 py-1 rounded-full">
                       Best Value
                     </span>
                   </div>
@@ -246,7 +182,7 @@ export default function HomePage() {
                 <ul className="space-y-3 mb-8 text-sm">
                   {tier.features.map((f) => (
                     <li key={f} className="flex items-center gap-2">
-                      <svg className="w-4 h-4 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg aria-hidden="true" className="w-4 h-4 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                       {f}
@@ -255,10 +191,10 @@ export default function HomePage() {
                 </ul>
                 <Link
                   href={tier.href}
-                  className={`block text-center w-full py-3 rounded-xl font-medium transition ${
+                  className={`block text-center w-full py-3 rounded-xl font-medium transition duration-300 ${
                     tier.ctaStyle === "gradient"
-                      ? "bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white hover:opacity-90"
-                      : "border border-white/15 hover:border-white/30 text-white"
+                      ? "bg-white text-black hover:bg-zinc-200"
+                      : "border border-white/15 hover:border-white/40 hover:bg-white/5 text-white"
                   }`}
                 >
                   {tier.cta}
@@ -273,7 +209,8 @@ export default function HomePage() {
       <section className="py-20 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Built For</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Built For Autonomous Agents</h2>
+            <p className="text-white/50">Polyhistor provides the geospatial context required for real-world AI reasoning.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {USE_CASES.map((useCase, i) => (
@@ -294,19 +231,16 @@ export default function HomePage() {
       {/* CTA */}
       <section className="py-20 px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-12 shadow-[0_0_40px_rgba(102,126,234,0.15)]">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Build?</h2>
-            <p className="text-white/50 mb-8 max-w-lg mx-auto">
-              Get early access to Polyhistor. Join the waitlist and be the first to build with contextual location intelligence.
+          <div className="bg-white/[0.02] border border-white/10 rounded-3xl p-12">
+            <h2 className="text-3xl md:text-5xl font-medium mb-4 tracking-tight">Ready to Build?</h2>
+            <p className="text-zinc-400 mb-8 max-w-lg mx-auto">
+              Get early access to Polyhistor. Join the waitlist and be the first to build with our groundbreaking location intelligence API for AI agents.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <TrackedLink href="/demo" label="Try the Demo" location="bottom_cta" className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-8 py-3.5 rounded-xl font-semibold text-lg hover:opacity-90 transition">
+              <TrackedLink href="/demo" label="Try the Demo" location="bottom_cta" className="bg-white text-black px-8 py-4 rounded-full font-medium text-lg hover:bg-zinc-200 transition-colors">
                 Try the Demo
               </TrackedLink>
-              <TrackedLink href="/heatmap" label="Explore Heatmap" location="bottom_cta" className="px-8 py-3.5 rounded-xl font-semibold text-lg border border-white/15 hover:border-white/30 transition text-white">
-                Explore Heatmap
-              </TrackedLink>
-              <TrackedLink href="/waitlist" label="Join the Waitlist" location="bottom_cta" className="px-8 py-3.5 rounded-xl font-semibold text-lg border border-white/15 hover:border-white/30 transition text-white">
+              <TrackedLink href="/waitlist" label="Join the Waitlist" location="bottom_cta" className="px-8 py-4 rounded-full font-medium text-lg border border-white/10 hover:border-white/30 transition-colors text-white">
                 Join the Waitlist
               </TrackedLink>
             </div>

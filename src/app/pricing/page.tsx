@@ -23,13 +23,13 @@ export default function PricingPage() {
               key={tier.name}
               className={`rounded-2xl p-8 ${
                 tier.popular
-                  ? "border border-[rgba(102,126,234,0.4)] bg-gradient-to-br from-[rgba(102,126,234,0.06)] to-[rgba(118,75,162,0.06)] relative"
+                  ? "border border-white/30 bg-white/[0.04] relative"
                   : "bg-white/[0.02] border border-white/[0.08]"
               }`}
             >
               {tier.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white text-xs font-semibold px-4 py-1 rounded-full">
+                  <span className="bg-white text-black text-xs font-semibold px-4 py-1 rounded-full">
                     Best Value
                   </span>
                 </div>
@@ -45,7 +45,7 @@ export default function PricingPage() {
               <ul className="space-y-3 mb-8 text-sm">
                 {tier.features.map((f) => (
                   <li key={f} className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg aria-hidden="true" className="w-4 h-4 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     {f}
@@ -56,7 +56,7 @@ export default function PricingPage() {
                 href={tier.href}
                 className={`block text-center w-full py-3 rounded-xl font-medium transition ${
                   tier.ctaStyle === "gradient"
-                    ? "bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white hover:opacity-90"
+                    ? "bg-white text-black hover:bg-zinc-200"
                     : "border border-white/15 hover:border-white/30 text-white"
                 }`}
               >
