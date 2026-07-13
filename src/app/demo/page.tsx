@@ -146,18 +146,41 @@ function MapResizer({
 }) {
   const { useMap } = require("react-leaflet");
   const map = useMap();
+  const hasObservedRef = useRef(false);
+
   useEffect(() => {
-    if (!map) return;
-    const id = requestAnimationFrame(() => {
+    if (!map || hasObservedRef.current) return;
+    hasObservedRef.current = true;
+    const container = map.getContainer();
+    if (!container) return;
+
+    const resizeObserver = new ResizeObserver(() => {
       map.invalidateSize();
     });
-    // Re-check after any layout settle-in
+    resizeObserver.observe(container);
+
+    // Initial layout may still be settling; trigger a resize after the DOM paints.
+    const id = requestAnimationFrame(() => map.invalidateSize());
+    const timeout = setTimeout(() => map.invalidateSize(), 150);
+
+    return () => {
+      resizeObserver.disconnect();
+      cancelAnimationFrame(id);
+      clearTimeout(timeout);
+    };
+  }, [map]);
+
+  // Also invalidate when result/focus changes cause layout shifts.
+  useEffect(() => {
+    if (!map) return;
+    const id = requestAnimationFrame(() => map.invalidateSize());
     const timeout = setTimeout(() => map.invalidateSize(), 250);
     return () => {
       cancelAnimationFrame(id);
       clearTimeout(timeout);
     };
   }, [map, results.length, focusCoord]);
+
   return null;
 }
 
@@ -590,11 +613,12 @@ export default function DemoPage() {
               <h3 className="font-semibold text-sm text-white/70">Map</h3>
               <span className="text-xs text-white/30">{results.length > 0 ? `${results.length} place${results.length !== 1 ? "s" : ""}` : ""}</span>
             </div>
-            <div className="h-[400px] rounded-xl overflow-hidden relative">
+            <div className="h-[400px] rounded-xl overflow-hidden">
               <MapContainer
                 center={mapCenter}
                 zoom={13}
-                className="h-full w-full"
+                className="block"
+                style={{ height: "100%", width: "100%" }}
                 zoomControl={false}
               >
                 <MapCityCenter center={mapCenter} disabled={results.length > 0} />
