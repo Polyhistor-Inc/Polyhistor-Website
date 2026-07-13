@@ -8,6 +8,8 @@ export default function HomeAnalytics() {
   useScrollDepth();
 
   const observedRefs = useRef<Map<string, boolean>>(new Map());
+  const observedEls = useRef<Set<Element>>(new Set());
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -26,8 +28,34 @@ export default function HomeAnalytics() {
       { threshold: 0.5 }
     );
 
-    document.querySelectorAll("[data-track-id]").forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    const observeTrackable = (root: ParentNode) => {
+      root.querySelectorAll("[data-track-id]").forEach((el) => {
+        if (!observedEls.current.has(el)) {
+          observedEls.current.add(el);
+          observer.observe(el);
+        }
+      });
+    };
+
+    observeTrackable(document);
+
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            observeTrackable(node as Element);
+          }
+        });
+      });
+    });
+
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      mutationObserver.disconnect();
+      observedEls.current.clear();
+    };
   }, []);
 
   return null;

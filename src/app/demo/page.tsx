@@ -17,7 +17,6 @@ import {
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { useMap } from "react-leaflet";
 
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
@@ -83,6 +82,7 @@ interface SuggestionsResponse {
 
 
 function MapFlyToInner({ lat, lon }: { lat: number; lon: number }) {
+  const { useMap } = require("react-leaflet");
   const map = useMap();
   useEffect(() => {
     if (lat && lon) {
@@ -93,6 +93,7 @@ function MapFlyToInner({ lat, lon }: { lat: number; lon: number }) {
 }
 
 function MapFitBounds({ results }: { results: PlaceResult[] }) {
+  const { useMap } = require("react-leaflet");
   const map = useMap();
   useEffect(() => {
     if (results.length === 0 || !map) return;
@@ -108,6 +109,7 @@ function MapFitBounds({ results }: { results: PlaceResult[] }) {
 }
 
 function MapCityCenter({ center }: { center: [number, number] }) {
+  const { useMap } = require("react-leaflet");
   const map = useMap();
   useEffect(() => {
     if (map && center) {

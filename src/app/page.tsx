@@ -160,7 +160,7 @@ export default function HomePage() {
                 data-track-type="pricing"
                 className={`rounded-2xl p-8 transition-all duration-300 bg-white/[0.02] border ${
                   tier.popular
-                    ? "border-white/30"
+                    ? "border-white/30 relative"
                     : "border-white/10"
                 }`}
               >

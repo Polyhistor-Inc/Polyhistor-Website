@@ -2,7 +2,7 @@
 
 import { CITIES, DEMO_QUERIES } from "@/lib/constants";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "leaflet/dist/leaflet.css";
 
@@ -51,14 +51,12 @@ export default function DemoSection() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [mapCenter, setMapCenter] = useState<[number, number]>([37.7749, -122.4194]);
-  const cityChangedRef = useRef(false);
 
   // Update map center when city dropdown changes
   useEffect(() => {
     const cityData = CITIES.find((c) => c.value === city);
     if (cityData) {
       setMapCenter([cityData.lat, cityData.lon]);
-      cityChangedRef.current = true;
     }
   }, [city]);
 

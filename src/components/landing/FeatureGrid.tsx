@@ -39,7 +39,7 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
       }}
       data-track-id={feature.title} 
       data-track-type="feature" 
-      className={`relative overflow-hidden bg-white/[0.02] border border-white/10 rounded-2xl p-8 hover:bg-white/[0.04] hover:border-white/20 transition-all duration-300 h-full flex flex-col group ${index === 0 ? "md:col-span-2" : index === 5 ? "md:col-span-3" : "md:col-span-1"}`}
+      className={`relative overflow-hidden bg-white/[0.02] border border-white/10 rounded-2xl p-8 hover:bg-white/[0.04] hover:border-white/20 transition-all duration-300 h-full flex flex-col group ${index === 0 ? "md:col-span-2" : index === 5 ? "lg:col-span-3" : "md:col-span-1"}`}
     >
       {/* Subtle Spotlight overlay */}
       <div 
