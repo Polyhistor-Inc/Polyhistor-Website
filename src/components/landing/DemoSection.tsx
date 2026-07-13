@@ -2,7 +2,7 @@
 
 import { CITIES, DEMO_QUERIES } from "@/lib/constants";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "leaflet/dist/leaflet.css";
 
@@ -38,9 +38,31 @@ interface PlaceResult {
 function MapFlyTo({ center }: { center: [number, number] }) {
   const { useMap } = require("react-leaflet");
   const map = useMap();
+  const lastCenterRef = useRef<string | null>(null);
   useEffect(() => {
-    map?.flyTo(center, 13, { duration: 1.2 });
+    if (!map) return;
+    const key = `${center[0].toFixed(5)},${center[1].toFixed(5)}`;
+    if (lastCenterRef.current === key) return;
+    lastCenterRef.current = key;
+    map.flyTo(center, 13, { duration: 1.2 });
   }, [center, map]);
+  return null;
+}
+
+function MapResizer({ results }: { results: PlaceResult[] }) {
+  const { useMap } = require("react-leaflet");
+  const map = useMap();
+  useEffect(() => {
+    if (!map) return;
+    const id = requestAnimationFrame(() => {
+      map.invalidateSize();
+    });
+    const timeout = setTimeout(() => map.invalidateSize(), 250);
+    return () => {
+      cancelAnimationFrame(id);
+      clearTimeout(timeout);
+    };
+  }, [map, results.length]);
   return null;
 }
 
@@ -50,14 +72,9 @@ export default function DemoSection() {
   const [results, setResults] = useState<PlaceResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [mapCenter, setMapCenter] = useState<[number, number]>([37.7749, -122.4194]);
-
-  // Update map center when city dropdown changes
-  useEffect(() => {
+  const mapCenter = useMemo<[number, number]>(() => {
     const cityData = CITIES.find((c) => c.value === city);
-    if (cityData) {
-      setMapCenter([cityData.lat, cityData.lon]);
-    }
+    return cityData ? [cityData.lat, cityData.lon] : [37.7749, -122.4194];
   }, [city]);
 
   const runSearch = useCallback(async () => {
@@ -76,10 +93,6 @@ export default function DemoSection() {
       setLoading(false);
     }
   }, [query, city]);
-
-  useEffect(() => {
-    runSearch();
-  }, [runSearch]);
 
   const getStateColor = (state: string) => {
     if (state === "PEAK" || state === "MORNING_RUSH") return "text-red-400";
@@ -200,6 +213,7 @@ export default function DemoSection() {
                 zoomControl={false}
               >
                 <MapFlyTo center={mapCenter} />
+                <MapResizer results={results} />
                 <TileLayer
                   url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
                   attribution="&copy; OpenStreetMap &copy; CARTO"
@@ -220,11 +234,11 @@ export default function DemoSection() {
                     }}
                   >
                     <Popup>
-                      <b className="text-black">{place.name}</b>
+                      <span style={{ fontWeight: 700, color: "#000" }}>{place.name}</span>
                       <br />
-                      <span className="text-black/70">{place.category || ""}</span>
+                      <span style={{ color: "#444" }}>{place.category || ""}</span>
                       <br />
-                      <span className="font-bold text-black">
+                      <span style={{ fontWeight: 700, color: "#000" }}>
                         {Math.round((place.vibe_match_score || place.score || 0) * 100)}% match
                       </span>
                     </Popup>

@@ -16,7 +16,7 @@ import {
 } from "@/lib/analytics";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
@@ -84,10 +84,13 @@ interface SuggestionsResponse {
 function MapFlyToInner({ lat, lon }: { lat: number; lon: number }) {
   const { useMap } = require("react-leaflet");
   const map = useMap();
+  const lastCoordRef = useRef<string | null>(null);
   useEffect(() => {
-    if (lat && lon) {
-      map?.flyTo([lat, lon], 16, { duration: 1.5 });
-    }
+    if (!map || lat == null || lon == null) return;
+    const key = `${lat.toFixed(6)},${lon.toFixed(6)}`;
+    if (lastCoordRef.current === key) return;
+    lastCoordRef.current = key;
+    map.flyTo([lat, lon], 16, { duration: 1.5 });
   }, [lat, lon, map]);
   return null;
 }
@@ -95,8 +98,14 @@ function MapFlyToInner({ lat, lon }: { lat: number; lon: number }) {
 function MapFitBounds({ results }: { results: PlaceResult[] }) {
   const { useMap } = require("react-leaflet");
   const map = useMap();
+  const lastBoundsRef = useRef<string | null>(null);
   useEffect(() => {
     if (results.length === 0 || !map) return;
+    const key = results
+      .map((r) => `${r.latitude.toFixed(5)},${r.longitude.toFixed(5)}`)
+      .join(";");
+    if (lastBoundsRef.current === key) return;
+    lastBoundsRef.current = key;
     const lats = results.map((r) => r.latitude);
     const lons = results.map((r) => r.longitude);
     const bounds: [[number, number], [number, number]] = [
@@ -108,14 +117,47 @@ function MapFitBounds({ results }: { results: PlaceResult[] }) {
   return null;
 }
 
-function MapCityCenter({ center }: { center: [number, number] }) {
+function MapCityCenter({
+  center,
+  disabled = false,
+}: {
+  center: [number, number];
+  disabled?: boolean;
+}) {
+  const { useMap } = require("react-leaflet");
+  const map = useMap();
+  const lastCenterRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!map || disabled) return;
+    const key = `${center[0].toFixed(5)},${center[1].toFixed(5)}`;
+    if (lastCenterRef.current === key) return;
+    lastCenterRef.current = key;
+    map.flyTo(center, 13, { duration: 1.2 });
+  }, [center, disabled, map]);
+  return null;
+}
+
+function MapResizer({
+  results,
+  focusCoord,
+}: {
+  results: PlaceResult[];
+  focusCoord: { lat: number; lon: number } | null;
+}) {
   const { useMap } = require("react-leaflet");
   const map = useMap();
   useEffect(() => {
-    if (map && center) {
-      map.flyTo(center, 13, { duration: 1.2 });
-    }
-  }, [center, map]);
+    if (!map) return;
+    const id = requestAnimationFrame(() => {
+      map.invalidateSize();
+    });
+    // Re-check after any layout settle-in
+    const timeout = setTimeout(() => map.invalidateSize(), 250);
+    return () => {
+      cancelAnimationFrame(id);
+      clearTimeout(timeout);
+    };
+  }, [map, results.length, focusCoord]);
   return null;
 }
 
@@ -126,10 +168,10 @@ export default function DemoPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [latency, setLatency] = useState<number | null>(null);
-  const cityData = CITIES.find((c) => c.value === city);
-  const mapCenter: [number, number] = cityData
-    ? [cityData.lat, cityData.lon]
-    : [37.7749, -122.4194];
+  const mapCenter = useMemo<[number, number]>(() => {
+    const cityData = CITIES.find((c) => c.value === city);
+    return cityData ? [cityData.lat, cityData.lon] : [37.7749, -122.4194];
+  }, [city]);
   const [focusCoord, setFocusCoord] = useState<{ lat: number; lon: number } | null>(null);
   const [suggestions, setSuggestions] = useState<SuggestionCategory[]>([]);
   const [suggestionsLoading, setSuggestionsLoading] = useState(false);
@@ -548,14 +590,15 @@ export default function DemoPage() {
               <h3 className="font-semibold text-sm text-white/70">Map</h3>
               <span className="text-xs text-white/30">{results.length > 0 ? `${results.length} place${results.length !== 1 ? "s" : ""}` : ""}</span>
             </div>
-            <div className="h-[400px] rounded-xl overflow-hidden">
+            <div className="h-[400px] rounded-xl overflow-hidden relative">
               <MapContainer
                 center={mapCenter}
                 zoom={13}
                 className="h-full w-full"
                 zoomControl={false}
               >
-                <MapCityCenter center={mapCenter} />
+                <MapCityCenter center={mapCenter} disabled={results.length > 0} />
+                <MapResizer results={results} focusCoord={focusCoord} />
                 <TileLayer
                   url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
                   attribution="&copy; OpenStreetMap &copy; CARTO"
@@ -588,15 +631,17 @@ export default function DemoPage() {
                       }}
                     >
                       <Popup>
-                        <b>{place.name}</b>
+                        <span style={{ fontWeight: 700, color: "#000" }}>{place.name}</span>
                         <br />
-                        {place.taxonomy?.primary || place.category || ""}
+                        <span style={{ color: "#444" }}>
+                          {place.taxonomy?.primary || place.category || ""}
+                        </span>
                         <br />
-                        <span style={{ color: pinColor }}>
+                        <span style={{ color: pinColor, fontWeight: 600 }}>
                           {Math.round(score * 100)}% match
                         </span>
                         <br />
-                        <span className="text-white/50 text-xs">
+                        <span style={{ color: "#666", fontSize: 12 }}>
                           {getStateColor(place.temporal_state || "UNKNOWN").label}
                         </span>
                       </Popup>
