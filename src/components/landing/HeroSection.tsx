@@ -43,7 +43,7 @@ export default function HeroSection() {
         <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center gap-3 mb-10">
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.03] border border-white/10 text-sm font-medium text-white/80 backdrop-blur-md shadow-[0_0_20px_rgba(255,255,255,0.05)]">
             <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
-            <span>Polyhistor V1.0 is live with 2000 + Api calls in last 3 days</span>
+            <span>Contextual location intelligence for AI agents — now accepting early access</span>
           </div>
         </motion.div>
 

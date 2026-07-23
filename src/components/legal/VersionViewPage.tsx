@@ -48,8 +48,16 @@ export default function VersionViewPage({ documentType, title, version }: Versio
           </div>
         )}
 
-        <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6">
-          <p className="text-white/50">Full document content for version {version}.</p>
+        <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 text-center">
+          <p className="text-white/50 text-sm mb-3">
+            The full document content for version {version} is archived. View the current version for the complete text.
+          </p>
+          <Link
+            href={`/${documentType}`}
+            className="inline-flex items-center gap-1 text-sm text-[#a855f7] hover:underline"
+          >
+            View current {title} →
+          </Link>
         </div>
       </div>
     </main>

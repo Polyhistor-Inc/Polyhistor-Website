@@ -12,13 +12,16 @@ export default function EULA() {
     <main className="container mx-auto px-4 pt-32 pb-16 min-h-[60vh]">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold mb-2 text-white">END USER LICENSE AGREEMENT (EULA)</h1>
-        <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 mb-6">
-          <p className="text-amber-400 text-sm font-medium text-center">
-            🚧 Coming Soon — This agreement is being finalized. Check back shortly.
+
+        <div className="bg-[rgba(102,126,234,0.08)] border border-[rgba(102,126,234,0.2)] rounded-xl p-4 mb-8">
+          <p className="text-sm text-white/70">
+            <strong>Note:</strong> This EULA applies to the <strong>Polyhistor mobile application</strong> (iOS and Android). 
+            For questions about the Polyhistor Location Intelligence API or this website, please contact{' '}
+            <a href="mailto:naveengali@thepolyhistor.com" className="text-[#a855f7] hover:underline">naveengali@thepolyhistor.com</a>.
           </p>
         </div>
-        <div className="hidden">
-          <p className="text-white/50 mb-8">
+
+        <p className="text-white/50 mb-8">
             Last Updated: March 25, 2026
             <br />
             <Link href="/eula/versions" className="text-[#a855f7] hover:underline text-sm">
@@ -29,7 +32,7 @@ export default function EULA() {
           <div className="prose prose-slate max-w-none text-white/70">
 
           {/* Quick Summary Box */}
-          <div className="bg-white/5 border-2 border-dashed border-slate-300 rounded-xl p-6 mb-10 no-print">
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-6 mb-10 no-print">
             <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2 not-prose">
               At a Glance ✨
             </h2>
@@ -74,7 +77,7 @@ export default function EULA() {
           </div>
 
           {/* Table of Contents */}
-          <div className="mb-12 p-6 bg-white border border-white/10 rounded-lg shadow-sm no-print">
+          <div className="mb-12 p-6 bg-white/[0.03] border border-white/[0.06] rounded-lg no-print">
             <h3 className="text-lg font-bold text-white mb-4">Table of Contents</h3>
             <div className="grid md:grid-cols-3 gap-x-8 gap-y-2 text-sm">
               <a href="#scope" className="text-[#a855f7] hover:underline">1. Scope of License</a>
@@ -260,7 +263,6 @@ export default function EULA() {
             </p>
           </section>
 
-        </div>
         </div>
       </div>
       <BackToTop />

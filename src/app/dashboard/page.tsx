@@ -202,15 +202,15 @@ export default function DashboardPage() {
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-white/50 mb-1">Requests Today</p>
-                  <p className="text-[2rem] font-bold text-white">—</p>
+                  <p className="text-sm text-white/30">Sign in to view usage</p>
                 </div>
                 <div>
                   <p className="text-sm text-white/50 mb-1">Requests This Month</p>
-                  <p className="text-[2rem] font-bold text-white">—</p>
+                  <p className="text-sm text-white/30">Sign in to view usage</p>
                 </div>
                 <div>
                   <p className="text-sm text-white/50 mb-1">Quota Remaining</p>
-                  <p className="text-[2rem] font-bold text-white">—</p>
+                  <p className="text-sm text-white/30">Sign in to view usage</p>
                 </div>
               </div>
               <div className="mt-4 pt-4 border-t border-white/5">

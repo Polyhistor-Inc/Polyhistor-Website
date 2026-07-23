@@ -1,5 +1,6 @@
 "use client";
 
+import BackToTop from "@/components/BackToTop";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -780,6 +781,7 @@ data = res.json()`}
           </div>
         </main>
       </div>
+      <BackToTop />
     </main>
   );
 }

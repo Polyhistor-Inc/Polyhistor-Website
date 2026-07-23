@@ -2,10 +2,31 @@
 
 import { trackNavClick } from "@/lib/analytics";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+
+function getLinkActive(href: string, pathname: string): boolean {
+  if (href.startsWith("/#")) return pathname === "/";
+  return pathname === href;
+}
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  const linkClass = (href: string) =>
+    `text-sm transition ${
+      getLinkActive(href, pathname)
+        ? "text-white"
+        : "text-white/60 hover:text-white"
+    }`;
+
+  const mobileLinkClass = (href: string) =>
+    `block py-2 ${
+      getLinkActive(href, pathname)
+        ? "text-white"
+        : "text-white/60 hover:text-white"
+    }`;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 backdrop-blur-xl bg-black/80">
@@ -15,10 +36,10 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          <Link href="/#features" onClick={() => trackNavClick({ link: "#features", location: "navbar" })} className="text-sm text-white/60 hover:text-white transition">Features</Link>
-          <Link href="/demo" onClick={() => trackNavClick({ link: "/demo", location: "navbar" })} className="text-sm text-white/60 hover:text-white transition">Demo</Link>
-          <Link href="/heatmap" onClick={() => trackNavClick({ link: "/heatmap", location: "navbar" })} className="text-sm text-white/60 hover:text-white transition">Heatmap</Link>
-          <Link href="/pricing" onClick={() => trackNavClick({ link: "/pricing", location: "navbar" })} className="text-sm text-white/60 hover:text-white transition">Pricing</Link>
+          <Link href="/#features" onClick={() => trackNavClick({ link: "#features", location: "navbar" })} className={linkClass("/#features")}>Features</Link>
+          <Link href="/demo" onClick={() => trackNavClick({ link: "/demo", location: "navbar" })} className={linkClass("/demo")}>Demo</Link>
+          <Link href="/heatmap" onClick={() => trackNavClick({ link: "/heatmap", location: "navbar" })} className={linkClass("/heatmap")}>Heatmap</Link>
+          <Link href="/pricing" onClick={() => trackNavClick({ link: "/pricing", location: "navbar" })} className={linkClass("/pricing")}>Pricing</Link>
         </div>
 
         <div className="flex items-center gap-3">
@@ -49,10 +70,10 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden border-t border-white/5 bg-black/95 backdrop-blur-xl">
           <div className="px-6 py-4 space-y-3">
-            <Link href="/#features" onClick={() => { setIsOpen(false); trackNavClick({ link: "#features", location: "mobile_menu" }); }} className="block text-white/60 hover:text-white py-2">Features</Link>
-            <Link href="/demo" onClick={() => { setIsOpen(false); trackNavClick({ link: "/demo", location: "mobile_menu" }); }} className="block text-white/60 hover:text-white py-2">Demo</Link>
-            <Link href="/heatmap" onClick={() => { setIsOpen(false); trackNavClick({ link: "/heatmap", location: "mobile_menu" }); }} className="block text-white/60 hover:text-white py-2">Heatmap</Link>
-            <Link href="/pricing" onClick={() => { setIsOpen(false); trackNavClick({ link: "/pricing", location: "mobile_menu" }); }} className="block text-white/60 hover:text-white py-2">Pricing</Link>
+            <Link href="/#features" onClick={() => { setIsOpen(false); trackNavClick({ link: "#features", location: "mobile_menu" }); }} className={mobileLinkClass("/#features")}>Features</Link>
+            <Link href="/demo" onClick={() => { setIsOpen(false); trackNavClick({ link: "/demo", location: "mobile_menu" }); }} className={mobileLinkClass("/demo")}>Demo</Link>
+            <Link href="/heatmap" onClick={() => { setIsOpen(false); trackNavClick({ link: "/heatmap", location: "mobile_menu" }); }} className={mobileLinkClass("/heatmap")}>Heatmap</Link>
+            <Link href="/pricing" onClick={() => { setIsOpen(false); trackNavClick({ link: "/pricing", location: "mobile_menu" }); }} className={mobileLinkClass("/pricing")}>Pricing</Link>
             <Link
               href="/waitlist"
               onClick={() => { setIsOpen(false); trackNavClick({ link: "/waitlist", location: "mobile_menu" }); }}

@@ -8,6 +8,7 @@ import {
   trackHeatmapTribeChange,
 } from "@/lib/analytics";
 import { canMakeRequest, recordRequest } from "@/lib/rateLimiter";
+import BackToTop from "@/components/BackToTop";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
@@ -375,6 +376,7 @@ export default function HeatmapPage() {
           </div>
         </div>
       </div>
+      <BackToTop />
     </main>
   );
 }

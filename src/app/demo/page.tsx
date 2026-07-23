@@ -14,6 +14,12 @@ import {
   trackDemoSearch,
   trackDemoSuggestionClick,
 } from "@/lib/analytics";
+import MapCityCenter from "@/components/map/MapCityCenter";
+import MapFitBounds from "@/components/map/MapFitBounds";
+import MapFlyTo from "@/components/map/MapFlyTo";
+import MapResizer from "@/components/map/MapResizer";
+import BackToTop from "@/components/BackToTop";
+import type { PlaceResult, SuggestionsResponse } from "@/types";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -35,155 +41,6 @@ const Popup = dynamic(
   { ssr: false }
 );
 
-interface Tribe {
-  tribe_id: string;
-  label: string;
-  icon: string;
-  color: string;
-  rule_score: number;
-  embedding_score: number;
-  final_score: number;
-}
-
-interface PlaceResult {
-  id: string;
-  name: string;
-  category: string;
-  main_category: string;
-  taxonomy: {
-    primary: string;
-    hierarchy: string[];
-    alternates: string[] | null;
-  };
-  latitude: number;
-  longitude: number;
-  distance_meters: number;
-  vibe_match_score: number;
-  temporal_state: string;
-  next_transition: number | null;
-  tribe_density: number;
-  tribes: Tribe[];
-  estimated_wait_minutes: number;
-  recommendation: string;
-}
-
-interface SuggestionCategory {
-  id: string;
-  label: string;
-  icon: string;
-  description: string;
-  queries: { query: string; city: string; cityLabel: string }[];
-}
-
-interface SuggestionsResponse {
-  categories: SuggestionCategory[];
-  meta: { total_categories: number; total_queries: number };
-}
-
-
-function MapFlyToInner({ lat, lon }: { lat: number; lon: number }) {
-  const { useMap } = require("react-leaflet");
-  const map = useMap();
-  const lastCoordRef = useRef<string | null>(null);
-  useEffect(() => {
-    if (!map || lat == null || lon == null) return;
-    const key = `${lat.toFixed(6)},${lon.toFixed(6)}`;
-    if (lastCoordRef.current === key) return;
-    lastCoordRef.current = key;
-    map.flyTo([lat, lon], 16, { duration: 1.5 });
-  }, [lat, lon, map]);
-  return null;
-}
-
-function MapFitBounds({ results }: { results: PlaceResult[] }) {
-  const { useMap } = require("react-leaflet");
-  const map = useMap();
-  const lastBoundsRef = useRef<string | null>(null);
-  useEffect(() => {
-    if (results.length === 0 || !map) return;
-    const key = results
-      .map((r) => `${r.latitude.toFixed(5)},${r.longitude.toFixed(5)}`)
-      .join(";");
-    if (lastBoundsRef.current === key) return;
-    lastBoundsRef.current = key;
-    const lats = results.map((r) => r.latitude);
-    const lons = results.map((r) => r.longitude);
-    const bounds: [[number, number], [number, number]] = [
-      [Math.min(...lats), Math.min(...lons)],
-      [Math.max(...lats), Math.max(...lons)],
-    ];
-    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16, animate: true });
-  }, [results, map]);
-  return null;
-}
-
-function MapCityCenter({
-  center,
-  disabled = false,
-}: {
-  center: [number, number];
-  disabled?: boolean;
-}) {
-  const { useMap } = require("react-leaflet");
-  const map = useMap();
-  const lastCenterRef = useRef<string | null>(null);
-  useEffect(() => {
-    if (!map || disabled) return;
-    const key = `${center[0].toFixed(5)},${center[1].toFixed(5)}`;
-    if (lastCenterRef.current === key) return;
-    lastCenterRef.current = key;
-    map.flyTo(center, 13, { duration: 1.2 });
-  }, [center, disabled, map]);
-  return null;
-}
-
-function MapResizer({
-  results,
-  focusCoord,
-}: {
-  results: PlaceResult[];
-  focusCoord: { lat: number; lon: number } | null;
-}) {
-  const { useMap } = require("react-leaflet");
-  const map = useMap();
-  const hasObservedRef = useRef(false);
-
-  useEffect(() => {
-    if (!map || hasObservedRef.current) return;
-    hasObservedRef.current = true;
-    const container = map.getContainer();
-    if (!container) return;
-
-    const resizeObserver = new ResizeObserver(() => {
-      map.invalidateSize();
-    });
-    resizeObserver.observe(container);
-
-    // Initial layout may still be settling; trigger a resize after the DOM paints.
-    const id = requestAnimationFrame(() => map.invalidateSize());
-    const timeout = setTimeout(() => map.invalidateSize(), 150);
-
-    return () => {
-      resizeObserver.disconnect();
-      cancelAnimationFrame(id);
-      clearTimeout(timeout);
-    };
-  }, [map]);
-
-  // Also invalidate when result/focus changes cause layout shifts.
-  useEffect(() => {
-    if (!map) return;
-    const id = requestAnimationFrame(() => map.invalidateSize());
-    const timeout = setTimeout(() => map.invalidateSize(), 250);
-    return () => {
-      cancelAnimationFrame(id);
-      clearTimeout(timeout);
-    };
-  }, [map, results.length, focusCoord]);
-
-  return null;
-}
-
 export default function DemoPage() {
   const [query, setQuery] = useState("cozy coffee shop for working");
   const [city, setCity] = useState("san francisco");
@@ -196,14 +53,14 @@ export default function DemoPage() {
     return cityData ? [cityData.lat, cityData.lon] : [37.7749, -122.4194];
   }, [city]);
   const [focusCoord, setFocusCoord] = useState<{ lat: number; lon: number } | null>(null);
-  const [suggestions, setSuggestions] = useState<SuggestionCategory[]>([]);
+  const [suggestions, setSuggestions] = useState<SuggestionsResponse["categories"]>([]);
   const [suggestionsLoading, setSuggestionsLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [activeChip, setActiveChip] = useState<string | null>(null);
   const resultRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [rateLimit, setRateLimit] = useState(canMakeRequest());
+  const [resizeTrigger, setResizeTrigger] = useState(0);
 
-  // Fetch suggestions on mount
   useEffect(() => {
     setSuggestionsLoading(true);
     fetch("/api/demo/suggestions")
@@ -215,7 +72,6 @@ export default function DemoPage() {
       .finally(() => setSuggestionsLoading(false));
   }, []);
 
-  // Refresh rate limit status every second for live countdown
   useEffect(() => {
     setRateLimit(canMakeRequest());
     const interval = setInterval(() => {
@@ -269,6 +125,7 @@ export default function DemoPage() {
       setResults(places);
       setLatency(Math.round(performance.now() - startTime));
       setRateLimit(canMakeRequest());
+      setResizeTrigger((t) => t + 1);
       trackDemoSearch({ query: q, city: c, resultCount: places.length, success: true });
       if (places.length === 0) {
         setError("No results found. Try a different city or query.");
@@ -295,7 +152,6 @@ export default function DemoPage() {
         await runSearch(data.query, data.city);
       }
     } catch {
-      // fallback
       const fallback = [
         "cozy coffee shop for working",
         "romantic rooftop bar",
@@ -554,35 +410,29 @@ export default function DemoPage() {
                       </div>
                     </div>
 
-                    {/* Badges row */}
                     <div className="flex flex-wrap items-center gap-2 mt-2.5">
-                      {/* Temporal state */}
                       <span className={`inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.06] ${stateStyle.text}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${stateStyle.dot}`} />
                         {stateStyle.label}
                       </span>
 
-                      {/* Recommendation */}
                       <span className={`inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-full ${rec.bg} ${rec.text} border ${rec.border}`}>
                         {rec.label}
                       </span>
 
-                      {/* Distance */}
-                      {place.distance_meters > 0 && (
+                      {place.distance_meters != null && place.distance_meters > 0 && (
                         <span className="text-[11px] text-white/30">
                           {(place.distance_meters / 1000).toFixed(1)} km
                         </span>
                       )}
 
-                      {/* Wait time */}
-                      {place.estimated_wait_minutes > 0 && (
+                      {place.estimated_wait_minutes != null && place.estimated_wait_minutes > 0 && (
                         <span className="text-[11px] text-white/30">
                           ⏳ {place.estimated_wait_minutes}min
                         </span>
                       )}
                     </div>
 
-                    {/* Tribe chips */}
                     {topTribes.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mt-2">
                         {topTribes.map((tribe) => (
@@ -622,7 +472,7 @@ export default function DemoPage() {
                 zoomControl={false}
               >
                 <MapCityCenter center={mapCenter} disabled={results.length > 0} />
-                <MapResizer results={results} focusCoord={focusCoord} />
+                <MapResizer trigger={resizeTrigger} />
                 <TileLayer
                   url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
                   attribution="&copy; OpenStreetMap &copy; CARTO"
@@ -631,7 +481,7 @@ export default function DemoPage() {
                 />
                 <MapFitBounds results={results} />
                 {focusCoord && (
-                  <MapFlyToInner lat={focusCoord.lat} lon={focusCoord.lon} />
+                  <MapFlyTo center={[focusCoord.lat, focusCoord.lon]} zoom={16} duration={1.5} />
                 )}
                 {results.map((place, i) => {
                   const score = place.vibe_match_score || 0;
@@ -690,6 +540,7 @@ export default function DemoPage() {
           </div>
         </div>
       </section>
+      <BackToTop />
     </main>
   );
 }

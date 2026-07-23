@@ -18,22 +18,10 @@ export default function Footer() {
               <li><Link href="/demo" onClick={() => trackNavClick({ link: "/demo", location: "footer" })} className="hover:text-white transition">Demo</Link></li>
             </ul>
           </div>
-          {/* <div>
-            <p className="font-semibold mb-3 text-white">Resources</p>
-            <ul className="space-y-2 text-sm text-white/40">
-              <li><a href="#" className="hover:text-white transition">Research Paper</a></li>
-              <li><a href="#" className="hover:text-white transition">GitHub</a></li>
-              <li><a href="#" className="hover:text-white transition">Docker Hub</a></li>
-              <li><a href="#" className="hover:text-white transition">Status Page</a></li>
-            </ul>
-          </div> */}
           <div className="md:flex md:justify-center">
             <div>
               <p className="font-semibold mb-3 text-white">Company</p>
               <ul className="space-y-2 text-sm text-white/40">
-                {/* <li><a href="#" className="hover:text-white transition">About</a></li>
-                <li><a href="#" className="hover:text-white transition">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition">Careers</a></li> */}
                 <li><a href="mailto:naveengali@thepolyhistor.com" className="hover:text-white transition">Contact</a></li>
               </ul>
             </div>

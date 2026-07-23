@@ -140,7 +140,7 @@ export default function WaitlistPage() {
               <p className="text-white/50 mb-6">We&apos;ll email you as soon as early access opens. In the meantime, try the demo.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link href="/demo" className="bg-white text-black px-6 py-2.5 rounded-lg font-medium hover:bg-zinc-200 transition">Try the Demo</Link>
-
+                <Link href="/" className="px-6 py-2.5 rounded-lg font-medium border border-white/10 hover:border-white/30 transition text-white">Back to Home</Link>
               </div>
             </div>
           </div>

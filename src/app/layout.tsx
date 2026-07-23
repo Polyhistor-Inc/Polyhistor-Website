@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     siteName: "Polyhistor",
     images: [
       {
-        url: "/polyhistor-logo.png",
+        url: "/social-card.png",
         width: 1200,
         height: 630,
         alt: "Polyhistor — Location Intelligence for AI Agents",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/polyhistor-logo.png`],
+    images: [`${siteConfig.url}/social-card.png`],
   },
   robots: {
     index: true,

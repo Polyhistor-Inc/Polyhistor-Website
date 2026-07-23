@@ -1,8 +1,11 @@
 "use client";
 
 import { CITIES, DEMO_QUERIES } from "@/lib/constants";
+import MapFlyTo from "@/components/map/MapFlyTo";
+import MapResizer from "@/components/map/MapResizer";
+import type { PlaceResult } from "@/types";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "leaflet/dist/leaflet.css";
 
@@ -23,55 +26,13 @@ const Popup = dynamic(
   { ssr: false }
 );
 
-interface PlaceResult {
-  name: string;
-  category?: string;
-  latitude: number;
-  longitude: number;
-  vibe_match_score?: number;
-  score?: number;
-  temporal_state?: string;
-  distance_meters?: number;
-  tribe_density?: number;
-}
-
-function MapFlyTo({ center }: { center: [number, number] }) {
-  const { useMap } = require("react-leaflet");
-  const map = useMap();
-  const lastCenterRef = useRef<string | null>(null);
-  useEffect(() => {
-    if (!map) return;
-    const key = `${center[0].toFixed(5)},${center[1].toFixed(5)}`;
-    if (lastCenterRef.current === key) return;
-    lastCenterRef.current = key;
-    map.flyTo(center, 13, { duration: 1.2 });
-  }, [center, map]);
-  return null;
-}
-
-function MapResizer({ results }: { results: PlaceResult[] }) {
-  const { useMap } = require("react-leaflet");
-  const map = useMap();
-  useEffect(() => {
-    if (!map) return;
-    const id = requestAnimationFrame(() => {
-      map.invalidateSize();
-    });
-    const timeout = setTimeout(() => map.invalidateSize(), 250);
-    return () => {
-      cancelAnimationFrame(id);
-      clearTimeout(timeout);
-    };
-  }, [map, results.length]);
-  return null;
-}
-
 export default function DemoSection() {
   const [query, setQuery] = useState("cozy coffee shop");
   const [city, setCity] = useState("san francisco");
   const [results, setResults] = useState<PlaceResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [resizeTrigger, setResizeTrigger] = useState(0);
   const mapCenter = useMemo<[number, number]>(() => {
     const cityData = CITIES.find((c) => c.value === city);
     return cityData ? [cityData.lat, cityData.lon] : [37.7749, -122.4194];
@@ -87,6 +48,7 @@ export default function DemoSection() {
       const data = await res.json();
       const places = data.places || data.results || [];
       setResults(places);
+      setResizeTrigger((t) => t + 1);
     } catch (err) {
       setError("Failed to fetch results. Try again.");
     } finally {
@@ -213,7 +175,7 @@ export default function DemoSection() {
                 zoomControl={false}
               >
                 <MapFlyTo center={mapCenter} />
-                <MapResizer results={results} />
+                <MapResizer trigger={resizeTrigger} />
                 <TileLayer
                   url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
                   attribution="&copy; OpenStreetMap &copy; CARTO"

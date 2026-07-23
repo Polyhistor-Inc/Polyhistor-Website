@@ -1,4 +1,5 @@
 import { PRICING_TIERS } from "@/lib/constants";
+import HomeAnalytics from "@/components/HomeAnalytics";
 import Link from "next/link";
 
 export const metadata = {
@@ -9,6 +10,7 @@ export const metadata = {
 export default function PricingPage() {
   return (
     <main className="flex-1 pt-32 pb-20 px-6">
+      <HomeAnalytics />
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Simple Pricing</h1>
@@ -21,6 +23,8 @@ export default function PricingPage() {
           {PRICING_TIERS.map((tier) => (
             <div
               key={tier.name}
+              data-track-id={tier.name}
+              data-track-type="pricing"
               className={`rounded-2xl p-8 ${
                 tier.popular
                   ? "border border-white/30 bg-white/[0.04] relative"

@@ -1,6 +1,7 @@
 "use client";
 
 import { legalDocumentRegistry } from "@/data/legal-versions";
+import Link from "next/link";
 import { useState } from "react";
 
 interface VersionHistoryPageProps {
@@ -21,7 +22,6 @@ export default function VersionHistoryPage({ documentType, title }: VersionHisto
         </p>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {/* Sidebar */}
           <div className="md:col-span-1">
             <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 sticky top-24">
               <h2 className="font-semibold mb-4 text-white">Versions</h2>
@@ -44,7 +44,6 @@ export default function VersionHistoryPage({ documentType, title }: VersionHisto
             </div>
           </div>
 
-          {/* Content */}
           <div className="md:col-span-2">
             <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
@@ -63,8 +62,16 @@ export default function VersionHistoryPage({ documentType, title }: VersionHisto
                 </div>
               )}
 
-              <div className="prose prose-invert max-w-none">
-                <p className="text-white/50">View the full document content for this version.</p>
+              <div className="p-4 bg-white/[0.02] border border-white/[0.06] rounded-lg text-center">
+                <p className="text-white/50 text-sm mb-2">
+                  Archived full-text for this version is not available. View the current version for the complete document.
+                </p>
+                <Link
+                  href={`/${documentType}`}
+                  className="inline-flex items-center gap-1 text-sm text-[#a855f7] hover:underline"
+                >
+                  View current {title} →
+                </Link>
               </div>
             </div>
           </div>
