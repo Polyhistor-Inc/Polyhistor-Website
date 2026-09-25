@@ -177,9 +177,8 @@ export default function DemoSection() {
                 <MapFlyTo center={mapCenter} />
                 <MapResizer trigger={resizeTrigger} />
                 <TileLayer
-                  url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                  attribution="&copy; OpenStreetMap &copy; CARTO"
-                  subdomains="abcd"
+                  url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution="© OpenStreetMap contributors"
                   maxZoom={19}
                 />
                 {results.map((place, i) => (
@@ -196,11 +195,11 @@ export default function DemoSection() {
                     }}
                   >
                     <Popup>
-                      <span style={{ fontWeight: 700, color: "#000" }}>{place.name}</span>
+                      <span style={{ fontWeight: 700, color: "#f8fafc" }}>{place.name}</span>
                       <br />
-                      <span style={{ color: "#444" }}>{place.category || ""}</span>
+                      <span style={{ color: "#a1a1aa" }}>{place.category || ""}</span>
                       <br />
-                      <span style={{ fontWeight: 700, color: "#000" }}>
+                      <span style={{ fontWeight: 700, color: "#f8fafc" }}>
                         {Math.round((place.vibe_match_score || place.score || 0) * 100)}% match
                       </span>
                     </Popup>

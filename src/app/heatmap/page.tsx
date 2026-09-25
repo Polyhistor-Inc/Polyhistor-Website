@@ -337,9 +337,8 @@ export default function HeatmapPage() {
           zoomControl={false}
         >
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            attribution="&copy; OpenStreetMap &copy; CARTO"
-            subdomains="abcd"
+            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution="© OpenStreetMap contributors"
             maxZoom={19}
           />
           <MapCityCenter center={mapCenter} trigger={flyTrigger} />

@@ -474,9 +474,8 @@ export default function DemoPage() {
                 <MapCityCenter center={mapCenter} disabled={results.length > 0} />
                 <MapResizer trigger={resizeTrigger} />
                 <TileLayer
-                  url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                  attribution="&copy; OpenStreetMap &copy; CARTO"
-                  subdomains="abcd"
+                  url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution="© OpenStreetMap contributors"
                   maxZoom={19}
                 />
                 <MapFitBounds results={results} />
@@ -505,9 +504,9 @@ export default function DemoPage() {
                       }}
                     >
                       <Popup>
-                        <span style={{ fontWeight: 700, color: "#000" }}>{place.name}</span>
+                        <span style={{ fontWeight: 700, color: "#f8fafc" }}>{place.name}</span>
                         <br />
-                        <span style={{ color: "#444" }}>
+                        <span style={{ color: "#a1a1aa" }}>
                           {place.taxonomy?.primary || place.category || ""}
                         </span>
                         <br />
