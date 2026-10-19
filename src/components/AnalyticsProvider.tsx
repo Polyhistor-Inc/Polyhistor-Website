@@ -7,19 +7,22 @@ import { useEffect, useRef } from "react";
 export default function AnalyticsProvider() {
   const pathname = usePathname();
   const startTimeRef = useRef<number>(Date.now());
-  const prevPathRef = useRef<string>(pathname);
+  const prevPathRef = useRef<string | null>(null);
 
   // Track page views on route changes
   useEffect(() => {
     if (typeof window === "undefined") return;
+    // React Strict Mode may run this effect twice for the same route.
+    if (prevPathRef.current === pathname) return;
 
     // If path changed, log time on previous page then track new page
-    if (prevPathRef.current !== pathname) {
+    if (prevPathRef.current !== null) {
       const duration = Math.round((Date.now() - startTimeRef.current) / 1000);
       trackTimeOnPage(duration, prevPathRef.current);
-      startTimeRef.current = Date.now();
-      prevPathRef.current = pathname;
     }
+
+    startTimeRef.current = Date.now();
+    prevPathRef.current = pathname;
 
     trackPageView(pathname, document.title);
   }, [pathname]);

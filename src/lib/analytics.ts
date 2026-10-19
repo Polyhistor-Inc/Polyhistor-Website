@@ -1,7 +1,7 @@
 "use client";
 
-import { getAnalytics, isSupported, logEvent, setUserProperties, type Analytics } from "firebase/analytics";
-import { initializeApp, type FirebaseApp } from "firebase/app";
+import { initializeAnalytics, isSupported, logEvent, setUserProperties, type Analytics } from "firebase/analytics";
+import { getApps, initializeApp } from "firebase/app";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,26 +13,44 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-let app: FirebaseApp | null = null;
 let analytics: Analytics | null = null;
 let initPromise: Promise<Analytics | null> | null = null;
 
 async function getAnalyticsInstance(): Promise<Analytics | null> {
+  if (typeof window === "undefined") return null;
   if (analytics) return analytics;
   if (initPromise) return initPromise;
 
   initPromise = (async () => {
+    const requiredConfig = {
+      apiKey: firebaseConfig.apiKey,
+      projectId: firebaseConfig.projectId,
+      appId: firebaseConfig.appId,
+      measurementId: firebaseConfig.measurementId,
+    };
+    const missingFields = Object.entries(requiredConfig)
+      .filter(([, value]) => !value?.trim())
+      .map(([field]) => field);
+
+    if (missingFields.length > 0) {
+      console.warn(`Firebase Analytics disabled: missing ${missingFields.join(", ")}`);
+      return null;
+    }
+
     const supported = await isSupported();
     if (!supported) {
       console.warn("Firebase Analytics not supported in this environment");
       return null;
     }
-    if (!app) {
-      app = initializeApp(firebaseConfig);
-    }
-    analytics = getAnalytics(app);
+    const app = getApps().find((existingApp) => existingApp.name === "[DEFAULT]")
+      ?? initializeApp(firebaseConfig);
+    // AnalyticsProvider owns page views, including the initial page load.
+    analytics = initializeAnalytics(app, { config: { send_page_view: false } });
     return analytics;
-  })();
+  })().catch((error: unknown) => {
+    console.warn("Firebase Analytics initialization failed", error);
+    return null;
+  });
 
   return initPromise;
 }
@@ -45,15 +63,19 @@ export async function trackEvent(
 ) {
   const a = await getAnalyticsInstance();
   if (!a) return;
-  logEvent(a, eventName, params as Record<string, never>);
+  try {
+    logEvent(a, eventName, params);
+  } catch (error) {
+    console.warn("Firebase Analytics event failed", error);
+  }
 }
 
 // ─── Page Views ─────────────────────────────────────────────────────
 
 export async function trackPageView(path: string, title?: string) {
-  const a = await getAnalyticsInstance();
-  if (!a) return;
-  logEvent(a, "page_view", {
+  if (typeof window === "undefined") return;
+  // Capture the URL and title before initialization can yield to a route change.
+  await trackEvent("page_view", {
     page_path: path,
     page_title: title || document.title,
     page_location: window.location.href,
@@ -65,7 +87,11 @@ export async function trackPageView(path: string, title?: string) {
 export async function setUserProps(props: Record<string, string | number | boolean>) {
   const a = await getAnalyticsInstance();
   if (!a) return;
-  setUserProperties(a, props);
+  try {
+    setUserProperties(a, props);
+  } catch (error) {
+    console.warn("Firebase Analytics user properties failed", error);
+  }
 }
 
 // ─── Demo Page Events ───────────────────────────────────────────────
@@ -108,7 +134,7 @@ export async function trackDemoCityChange(city: string) {
   await trackEvent("demo_city_change", { city });
 }
 
-export async function trackDemoRateLimit(secondsRemaining: number) {
+export async function trackDemoRateLimit(secondsRemaining?: number) {
   await trackEvent("demo_rate_limit", { seconds_remaining: secondsRemaining });
 }
 
@@ -151,7 +177,7 @@ export async function trackHeatmapCellHover(params: {
   });
 }
 
-export async function trackHeatmapRateLimit(secondsRemaining: number) {
+export async function trackHeatmapRateLimit(secondsRemaining?: number) {
   await trackEvent("heatmap_rate_limit", { seconds_remaining: secondsRemaining });
 }
 

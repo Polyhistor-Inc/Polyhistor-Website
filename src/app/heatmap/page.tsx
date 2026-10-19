@@ -184,6 +184,7 @@ export default function HeatmapPage() {
         type: "warn",
       });
       trackHeatmapRateLimit(limit.resetInSeconds);
+      trackHeatmapLoad({ city, tribe, cellCount: 0, success: false, error: "client_rate_limit" });
       return;
     }
 
@@ -198,6 +199,8 @@ export default function HeatmapPage() {
 
       if (res.status === 429) {
         const err = await res.json().catch(() => ({}));
+        trackHeatmapRateLimit();
+        trackHeatmapLoad({ city, tribe, cellCount: 0, success: false, error: "http_429" });
         setStatus({
           text: err.message || "Rate limited by server. Wait a moment.",
           type: "warn",
@@ -214,6 +217,7 @@ export default function HeatmapPage() {
       const heatmapCells = data.heatmap || [];
 
       if (heatmapCells.length === 0) {
+        trackHeatmapLoad({ city, tribe, cellCount: 0, success: true });
         setStatus({
           text: "No data found for this city and tribe.",
           type: "warn",

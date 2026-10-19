@@ -1,6 +1,12 @@
 "use client";
 
 import { CITIES, DEMO_QUERIES } from "@/lib/constants";
+import {
+  trackDemoCityChange,
+  trackDemoRateLimit,
+  trackDemoSearch,
+  trackDemoSuggestionClick,
+} from "@/lib/analytics";
 import MapFlyTo from "@/components/map/MapFlyTo";
 import MapResizer from "@/components/map/MapResizer";
 import type { PlaceResult } from "@/types";
@@ -38,19 +44,29 @@ export default function DemoSection() {
     return cityData ? [cityData.lat, cityData.lon] : [37.7749, -122.4194];
   }, [city]);
 
-  const runSearch = useCallback(async () => {
+  const runSearch = useCallback(async (searchQuery?: string) => {
+    const q = searchQuery ?? query;
     setLoading(true);
     setError("");
     try {
       const res = await fetch(
-        `/api/demo/search?query=${encodeURIComponent(query)}&city=${encodeURIComponent(city)}&limit=5`
+        `/api/demo/search?query=${encodeURIComponent(q)}&city=${encodeURIComponent(city)}&limit=5`
       );
+      if (!res.ok) {
+        if (res.status === 429) trackDemoRateLimit();
+        trackDemoSearch({ query: q, city, resultCount: 0, success: false, error: `http_${res.status}` });
+        setResults([]);
+        setError("Failed to fetch results. Try again.");
+        return;
+      }
       const data = await res.json();
       const places = data.places || data.results || [];
       setResults(places);
       setResizeTrigger((t) => t + 1);
+      trackDemoSearch({ query: q, city, resultCount: places.length, success: true });
     } catch (err) {
       setError("Failed to fetch results. Try again.");
+      trackDemoSearch({ query: q, city, resultCount: 0, success: false, error: "network_error" });
     } finally {
       setLoading(false);
     }
@@ -87,7 +103,7 @@ export default function DemoSection() {
             <select
               id="demo-city"
               value={city}
-              onChange={(e) => setCity(e.target.value)}
+              onChange={(e) => { setCity(e.target.value); trackDemoCityChange(e.target.value); }}
               className="px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-white/30 transition md:w-48"
             >
               {CITIES.map((c) => (
@@ -97,7 +113,7 @@ export default function DemoSection() {
               ))}
             </select>
             <button
-              onClick={runSearch}
+              onClick={() => runSearch()}
               disabled={loading}
               className="bg-white text-black px-8 py-3.5 rounded-xl font-medium hover:bg-zinc-200 transition disabled:opacity-50"
             >
@@ -111,7 +127,8 @@ export default function DemoSection() {
                 key={q}
                 onClick={() => {
                   setQuery(q);
-                  runSearch();
+                  trackDemoSuggestionClick(q);
+                  runSearch(q);
                 }}
                 className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-sm text-white/60 hover:text-white hover:border-white/20 transition"
               >

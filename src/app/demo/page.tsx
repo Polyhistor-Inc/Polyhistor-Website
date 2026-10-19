@@ -89,6 +89,7 @@ export default function DemoPage() {
       setError(`Rate limit reached. Try again in ${limit.resetInSeconds}s`);
       setRateLimit(limit);
       trackDemoRateLimit(limit.resetInSeconds);
+      trackDemoSearch({ query: q, city: c, resultCount: 0, success: false, error: "client_rate_limit" });
       return;
     }
 
@@ -111,10 +112,12 @@ export default function DemoPage() {
         const err = await res.json().catch(() => ({ error: "API error" }));
         if (res.status === 429) {
           setError(err.message || `Too many requests. Try again in ${err.retry_after || getRateLimitResetTime()}s.`);
+          trackDemoRateLimit();
         } else {
           setError(err.error || "Something went wrong. Try again.");
         }
         setResults([]);
+        trackDemoSearch({ query: q, city: c, resultCount: 0, success: false, error: `http_${res.status}` });
         setLoading(false);
         return;
       }

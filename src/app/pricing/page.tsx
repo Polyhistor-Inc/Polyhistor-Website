@@ -1,6 +1,6 @@
 import { PRICING_TIERS } from "@/lib/constants";
 import HomeAnalytics from "@/components/HomeAnalytics";
-import Link from "next/link";
+import TrackedLink from "@/components/TrackedLink";
 
 export const metadata = {
   title: "Pricing — Polyhistor",
@@ -56,8 +56,10 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
-              <Link
+              <TrackedLink
                 href={tier.href}
+                label={`${tier.name} - ${tier.cta}`}
+                location="pricing_page"
                 className={`block text-center w-full py-3 rounded-xl font-medium transition ${
                   tier.ctaStyle === "gradient"
                     ? "bg-white text-black hover:bg-zinc-200"
@@ -65,7 +67,7 @@ export default function PricingPage() {
                 }`}
               >
                 {tier.cta}
-              </Link>
+              </TrackedLink>
             </div>
           ))}
         </div>

@@ -3,7 +3,6 @@ import HomeAnalytics from "@/components/HomeAnalytics";
 import TrackedLink from "@/components/TrackedLink";
 import { LazyDemoSection, LazyFeatureGrid, LazyInteractiveCodeBlock } from "@/components/landing/ClientSections";
 import { PRICING_TIERS, USE_CASES } from "@/lib/constants";
-import Link from "next/link";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -189,8 +188,10 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <Link
+                <TrackedLink
                   href={tier.href}
+                  label={`${tier.name} - ${tier.cta}`}
+                  location="homepage_pricing"
                   className={`block text-center w-full py-3 rounded-xl font-medium transition duration-300 ${
                     tier.ctaStyle === "gradient"
                       ? "bg-white text-black hover:bg-zinc-200"
@@ -198,7 +199,7 @@ export default function HomePage() {
                   }`}
                 >
                   {tier.cta}
-                </Link>
+                </TrackedLink>
               </div>
             ))}
           </div>
